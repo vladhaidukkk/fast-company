@@ -1,13 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const Qualities = (props) => {
-  const getQualityClasses = (color) => `badge bg-${color} mx-1`;
+const Qualities = ({ qualities }) => qualities.map((quality) => (
+  <span key={quality.id} className={`badge mx-1 bg-${quality.color}`}>
+    {quality.name}
+  </span>
+));
 
-  return props.qualities.map((quality) => (
-    <span key={quality._id} className={getQualityClasses(quality.color)}>
-      {quality.name}
-    </span>
-  ));
+Qualities.propTypes = {
+  qualities: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default Qualities;
