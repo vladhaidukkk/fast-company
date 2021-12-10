@@ -3,7 +3,7 @@ import api from './api';
 import Status from './components/status';
 import Users from './components/users';
 
-const App = function () {
+const App = () => {
   const [users, setUsers] = useState(api.users.fetchAll());
 
   const handleBookmarkToggle = (id) => {
