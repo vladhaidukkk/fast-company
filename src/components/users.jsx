@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import User from './user';
 import Pagination from './pagination';
@@ -6,8 +6,13 @@ import { paginate } from '../utils/paginate';
 
 const Users = ({ users, onBookmarkToggle, onDelete }) => {
   const [currentIndex, setCurrentIndex] = useState(1);
-  const itemsOnPage = 5;
-  const usersCrop = paginate(users, itemsOnPage, currentIndex);
+  const usersOnPage = 5;
+  const usersAmount = users.length;
+  const usersCrop = paginate(users, usersOnPage, currentIndex);
+
+  if (usersCrop.length === 0) {
+    setCurrentIndex(currentIndex - 1);
+  }
 
   const handlePaginate = (index) => {
     setCurrentIndex(index);
@@ -33,8 +38,8 @@ const Users = ({ users, onBookmarkToggle, onDelete }) => {
         </tbody>
       </table>
       <Pagination
-        itemsAmount={users.length}
-        itemsOnPage={itemsOnPage}
+        itemsAmount={usersAmount}
+        itemsOnPage={usersOnPage}
         currentIndex={currentIndex}
         onPaginate={handlePaginate}
       />
