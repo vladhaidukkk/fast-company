@@ -8,7 +8,7 @@ const Bookmark = ({ userId, checked, onBookmarkToggle }) => (
 );
 
 Bookmark.propTypes = {
-  userId: PropTypes.number.isRequired,
+  userId: PropTypes.string.isRequired,
   checked: PropTypes.bool.isRequired,
   onBookmarkToggle: PropTypes.func.isRequired,
 };

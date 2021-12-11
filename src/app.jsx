@@ -25,7 +25,9 @@ const App = () => {
   return (
     <>
       <Status usersAmount={users.length} />
-      <Users users={users} onBookmarkToggle={handleBookmarkToggle} onDelete={handleDelete} />
+      { users.length
+        ? <Users users={users} onBookmarkToggle={handleBookmarkToggle} onDelete={handleDelete} />
+        : null }
     </>
   );
 };
