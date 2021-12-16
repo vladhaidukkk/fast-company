@@ -10,20 +10,20 @@ const User = ({
   profession,
   completedMeetings,
   rate,
-  isFavourite,
+  bookmark,
   onBookmarkToggle,
   onDelete,
 }) => (
   <tr>
     <th scope="row">{name}</th>
     <td>
-      <Qualities qualities={qualities} />
+      <Qualities items={qualities} />
     </td>
     <td>{profession.name}</td>
     <td>{completedMeetings}</td>
     <td>{`${rate}/5`}</td>
     <td>
-      <Bookmark userId={id} checked={isFavourite} onBookmarkToggle={onBookmarkToggle} />
+      <Bookmark userId={id} selected={bookmark} onBookmarkToggle={onBookmarkToggle} />
     </td>
     <td>
       <button type="button" className="btn btn-danger" onClick={() => onDelete(id)}>
@@ -40,7 +40,7 @@ User.propTypes = {
   profession: PropTypes.object.isRequired,
   completedMeetings: PropTypes.number.isRequired,
   rate: PropTypes.number.isRequired,
-  isFavourite: PropTypes.bool.isRequired,
+  bookmark: PropTypes.bool.isRequired,
   onBookmarkToggle: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
 };
