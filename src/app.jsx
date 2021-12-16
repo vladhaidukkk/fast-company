@@ -1,35 +1,31 @@
-import React, { Fragment, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import api from './api';
-import Status from './components/status';
 import Users from './components/users';
 
 const App = () => {
-  const [users, setUsers] = useState(api.users.fetchAll());
+  const [users, setUsers] = useState();
+
+  useEffect(() => {
+    api.users.fetchAll().then((data) => setUsers(data));
+  }, []);
 
   const handleBookmarkToggle = (id) => {
-    const usersCopy = [...users];
-    const updatedUsers = usersCopy.map((user) => {
+    setUsers(users.map((user) => {
       if (user.id === id) {
-        user.isFavourite = !user.isFavourite;
+        return { ...user, bookmark: !user.bookmark };
       }
       return user;
-    });
-    setUsers(updatedUsers);
+    }));
   };
 
   const handleDelete = (id) => {
-    const updatedUsers = users.filter((user) => user.id !== id);
-    setUsers(updatedUsers);
+    setUsers(users.filter((user) => user.id !== id));
   };
 
-  return (
-    <>
-      <Status usersAmount={users.length} />
-      { users.length
-        ? <Users users={users} onBookmarkToggle={handleBookmarkToggle} onDelete={handleDelete} />
-        : null }
-    </>
-  );
+  if (!users) {
+    return <h2><span className="badge bg-info m-2">Loading users...</span></h2>;
+  }
+  return <Users users={users} onBookmarkToggle={handleBookmarkToggle} onDelete={handleDelete} />;
 };
 
 export default App;

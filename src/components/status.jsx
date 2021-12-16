@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Status = ({ usersAmount }) => {
-  console.log(usersAmount);
   const formatStatus = () => {
     if (usersAmount === 0) {
       return <span className="badge bg-danger">Никто с тобой не тусанет</span>;
