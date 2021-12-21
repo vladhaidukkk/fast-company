@@ -10,12 +10,8 @@ import Pagination from '../components/pagination';
 import User from '../components/user';
 
 const Users = () => {
-  const { userId } = useParams();
-  if (userId) {
-    return <User id={userId} />;
-  }
-
   const USERS_ON_PAGE = 6;
+  const { userId } = useParams();
   const [users, setUsers] = useState();
   const [professions, setProfessions] = useState();
   const [selectedProf, setSelectedProf] = useState();
@@ -23,11 +19,20 @@ const Users = () => {
   const [currentIndex, setCurrentIndex] = useState(1);
 
   useEffect(() => {
-    api.users.fetchAll().then((data) => setUsers(data));
-    api.professions.fetchAll().then((data) => setProfessions(data));
+    let isSubscribed = true;
+    api.users.fetchAll().then((data) => isSubscribed && setUsers(data));
+    api.professions.fetchAll().then((data) => isSubscribed && setProfessions(data));
+
+    return () => {
+      isSubscribed = false;
+    };
   }, []);
 
   useEffect(() => setCurrentIndex(1), [selectedProf]);
+
+  if (userId) {
+    return <User id={userId} />;
+  }
 
   if (!users) {
     return <h2><span className="badge bg-primary m-2">Loading users...</span></h2>;
