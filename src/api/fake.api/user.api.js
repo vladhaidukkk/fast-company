@@ -156,7 +156,7 @@ const fetchUserById = (id) => new Promise((resolve, reject) => {
     if (foundedUser) {
       resolve(foundedUser);
     }
-    reject(new Error("User wasn't found"));
+    reject(new Error("UserPage wasn't found"));
   }, 500);
 });
 
