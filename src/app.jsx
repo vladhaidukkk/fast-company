@@ -1,6 +1,23 @@
 import React from 'react';
-import Users from './components/users';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import Navbar from './navbar';
+import Login from './layouts/login';
+import Users from './layouts/users';
+import Main from './layouts/main';
+import Error404 from './layouts/error404';
 
-const App = () => <Users />;
+const App = () => (
+  <>
+    <Navbar />
+    <Switch>
+      <Route path="/" exact component={Main} />
+      <Route path="/login" component={Login} />
+      <Route path="/users/:userId?" component={Users} />
+      <Route path="/404" component={Error404} />
+      <Redirect to="/" path="/main" />
+      <Redirect to="/404" />
+    </Switch>
+  </>
+);
 
 export default App;

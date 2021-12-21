@@ -147,9 +147,20 @@ const users = [
 const fetchAll = () => new Promise((resolve) => {
   setTimeout(() => {
     resolve(users);
-  }, 2000);
+  }, 1000);
+});
+
+const fetchUserById = (id) => new Promise((resolve, reject) => {
+  const foundedUser = users.find((user) => user.id === id);
+  setTimeout(() => {
+    if (foundedUser) {
+      resolve(foundedUser);
+    }
+    reject(new Error("User wasn't found"));
+  }, 500);
 });
 
 export default {
   fetchAll,
+  fetchUserById,
 };

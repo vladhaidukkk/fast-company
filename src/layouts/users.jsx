@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import _ from 'lodash';
 import api from '../api';
 import { paginate } from '../utils/paginate';
-import GroupList from './groupList';
-import Status from './status';
-import UsersTable from './usersTable';
-import Pagination from './pagination';
+import GroupList from '../components/groupList';
+import Status from '../components/status';
+import UsersTable from '../components/usersTable';
+import Pagination from '../components/pagination';
+import User from '../components/user';
 
 const Users = () => {
+  const { userId } = useParams();
+  if (userId) {
+    return <User id={userId} />;
+  }
+
   const USERS_ON_PAGE = 6;
   const [users, setUsers] = useState();
   const [professions, setProfessions] = useState();
