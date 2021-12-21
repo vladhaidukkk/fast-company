@@ -1,31 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import api from './api';
-import Users from './components/users';
+import React from 'react';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import Navbar from './navbar';
+import Login from './layouts/login';
+import Users from './layouts/users';
+import Main from './layouts/main';
+import Error404 from './layouts/error404';
 
-const App = () => {
-  const [users, setUsers] = useState();
-
-  useEffect(() => {
-    api.users.fetchAll().then((data) => setUsers(data));
-  }, []);
-
-  const handleBookmarkToggle = (id) => {
-    setUsers(users.map((user) => {
-      if (user.id === id) {
-        return { ...user, bookmark: !user.bookmark };
-      }
-      return user;
-    }));
-  };
-
-  const handleDelete = (id) => {
-    setUsers(users.filter((user) => user.id !== id));
-  };
-
-  if (!users) {
-    return <h2><span className="badge bg-info m-2">Loading users...</span></h2>;
-  }
-  return <Users users={users} onBookmarkToggle={handleBookmarkToggle} onDelete={handleDelete} />;
-};
+const App = () => (
+  <>
+    <Navbar />
+    <Switch>
+      <Route path="/" exact component={Main} />
+      <Route path="/login" component={Login} />
+      <Route path="/users/:userId?" component={Users} />
+      <Route path="/404" component={Error404} />
+      <Redirect to="/" path="/main" />
+      <Redirect to="/404" />
+    </Switch>
+  </>
+);
 
 export default App;

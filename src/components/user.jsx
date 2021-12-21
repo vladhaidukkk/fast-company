@@ -1,48 +1,61 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import Qualities from './qualities';
-import Bookmark from './bookmark';
+import api from '../api';
 
-const User = ({
-  id,
-  name,
-  qualities,
-  profession,
-  completedMeetings,
-  rate,
-  bookmark,
-  onBookmarkToggle,
-  onDelete,
-}) => (
-  <tr>
-    <th scope="row">{name}</th>
-    <td>
-      <Qualities items={qualities} />
-    </td>
-    <td>{profession.name}</td>
-    <td>{completedMeetings}</td>
-    <td>{`${rate}/5`}</td>
-    <td>
-      <Bookmark userId={id} selected={bookmark} onBookmarkToggle={onBookmarkToggle} />
-    </td>
-    <td>
-      <button type="button" className="btn btn-danger" onClick={() => onDelete(id)}>
-        <i className="bi bi-person-dash" />
-      </button>
-    </td>
-  </tr>
-);
+const User = ({ id }) => {
+  const { push } = useHistory();
+  const [user, setUser] = useState();
+  const [error, setError] = useState();
+
+  useEffect(() => {
+    api.users.fetchUserById(id)
+      .then((data) => setUser(data))
+      .catch((err) => setError(err));
+  }, []);
+
+  const renderAllUsersBtn = () => (
+    <button type="button" className="btn btn-secondary" onClick={() => push('/users')}>Все пользователи</button>
+  );
+
+  if (error) {
+    return (
+      <div className="m-2">
+        <h2><span className="badge bg-danger">{error.message}</span></h2>
+        {renderAllUsersBtn()}
+      </div>
+    );
+  }
+  if (!user) {
+    return <h2><span className="badge bg-primary m-2">Loading user...</span></h2>;
+  }
+  return (
+    <div className="m-2">
+      <h1>{user.name}</h1>
+      <h2>
+        Профессия:
+        {' '}
+        {user.profession.name}
+      </h2>
+      <div><Qualities items={user.qualities} /></div>
+      <div>
+        completedMeetings:
+        {' '}
+        {user.completedMeetings}
+      </div>
+      <h3>
+        Rate:
+        {' '}
+        {`${user.rate}`}
+      </h3>
+      {renderAllUsersBtn()}
+    </div>
+  );
+};
 
 User.propTypes = {
   id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  qualities: PropTypes.arrayOf(PropTypes.object).isRequired,
-  profession: PropTypes.object.isRequired,
-  completedMeetings: PropTypes.number.isRequired,
-  rate: PropTypes.number.isRequired,
-  bookmark: PropTypes.bool.isRequired,
-  onBookmarkToggle: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
 };
 
 export default User;
