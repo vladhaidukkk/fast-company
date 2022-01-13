@@ -27,5 +27,8 @@ module.exports = {
     'react/forbid-prop-types': 'off',
     'linebreak-style': 'off',
     'react/no-unstable-nested-components': 'off',
+    'jsx-a11y/label-has-associated-control': 'off',
+    'no-restricted-syntax': 'off',
+    'guard-for-in': 'off',
   },
 };

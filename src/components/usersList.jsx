@@ -6,11 +6,13 @@ import GroupList from './groupList';
 import Status from './status';
 import UsersTable from './usersTable';
 import Pagination from './pagination';
+import Search from './search';
 
 const UsersList = () => {
   const USERS_ON_PAGE = 6;
   const [users, setUsers] = useState();
   const [professions, setProfessions] = useState();
+  const [searchValue, setSearchValue] = useState('');
   const [selectedProf, setSelectedProf] = useState();
   const [sortBy, setSortBy] = useState({ iter: 'name', order: 'asc' });
   const [currentIndex, setCurrentIndex] = useState(1);
@@ -26,9 +28,15 @@ const UsersList = () => {
     return <h2><span className="badge bg-primary m-2">Loading users...</span></h2>;
   }
 
-  const filteredUsers = selectedProf
-    ? users.filter((user) => _.isEqual(user.profession, selectedProf))
-    : users;
+  let filteredUsers;
+  if (searchValue) {
+    filteredUsers = users.filter((user) => new RegExp(searchValue, 'i').test(user.name));
+  } else if (selectedProf) {
+    filteredUsers = users.filter((user) => _.isEqual(user.profession, selectedProf));
+  } else {
+    filteredUsers = users;
+  }
+
   const sortedUsers = _.orderBy(filteredUsers, [sortBy.iter], [sortBy.order]);
   const usersCrop = paginate(sortedUsers, USERS_ON_PAGE, currentIndex);
   const usersAmount = filteredUsers.length;
@@ -47,7 +55,14 @@ const UsersList = () => {
   };
 
   const handleDelete = (id) => setUsers(users.filter((user) => user.id !== id));
-  const handleProfessionSelect = (prof) => setSelectedProf(prof);
+  const handleSearch = ({ target }) => {
+    setSearchValue(target.value);
+    setSelectedProf(null);
+  };
+  const handleProfessionSelect = (prof) => {
+    setSelectedProf(prof);
+    setSearchValue('');
+  };
   const clearFilter = () => setSelectedProf();
   const handleSort = (newSortBy) => setSortBy(newSortBy);
   const handlePaginate = (index) => setCurrentIndex(index);
@@ -66,6 +81,7 @@ const UsersList = () => {
       )}
       <div className="p-2 d-flex flex-column w-100">
         <Status usersAmount={usersAmount} />
+        <Search value={searchValue} onChange={handleSearch} />
         { usersAmount > 0
           && (
             <UsersTable
