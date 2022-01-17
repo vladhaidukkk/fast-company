@@ -11,6 +11,7 @@ export const validator = (data, config) => {
         break;
       }
     }
+    if (Object.keys(errors).length === 1) break;
   }
 
   return errors;

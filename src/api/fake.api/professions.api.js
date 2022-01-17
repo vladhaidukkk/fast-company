@@ -16,12 +16,12 @@ export const professionsArray = [
   { id: '67rdca3eeb7f6fgeed471829', name: 'Повар' },
 ];
 
-const fetchAll = () => new Promise((resolve) => {
+const getAll = () => new Promise((resolve) => {
   setTimeout(() => {
     resolve(professionsArray);
-  }, 2000);
+  }, 500);
 });
 
 export default {
-  fetchAll,
+  getAll,
 };

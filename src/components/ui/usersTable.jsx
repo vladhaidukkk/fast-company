@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Table from './table';
-import TableHeader from './tableHeader';
-import TableBody from './tableBody';
+import Table, { TableHeader, TableBody } from '../common/table';
 import Bookmark from './bookmark';
 import Qualities from './qualities';
 

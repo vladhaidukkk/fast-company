@@ -13,6 +13,8 @@ const TextField = ({
 
   const getInputClasses = () => `form-control ${error ? 'is-invalid' : ''}`;
 
+  const handleChange = ({ target }) => onChange({ name, value: target.value });
+
   return (
     <div className="col mb-4">
       <label htmlFor={name} className="form-label">{label}</label>
@@ -22,7 +24,7 @@ const TextField = ({
           type={passwordVisibility ? 'text' : type}
           value={value}
           name={name}
-          onChange={onChange}
+          onChange={handleChange}
           className={getInputClasses()}
         />
         { isPassword && (
