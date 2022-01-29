@@ -24,7 +24,7 @@ const SelectField = ({
 
   return (
     <div className="col mb-4">
-      <label htmlFor={name} className="form-label">{label}</label>
+      { label && <label htmlFor={name} className="form-label">{label}</label> }
       <select
         id={name}
         name={name}
@@ -41,13 +41,14 @@ const SelectField = ({
 };
 
 SelectField.defaultProps = {
+  label: '',
   options: [],
   error: '',
   defaultOption: 'Choose...',
 };
 
 SelectField.propTypes = {
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   options: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   name: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,

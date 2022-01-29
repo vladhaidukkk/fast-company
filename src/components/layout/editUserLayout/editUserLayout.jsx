@@ -8,8 +8,8 @@ import SelectField from '../../common/form/selectField';
 import RadioField from '../../common/form/radioField';
 import MultiSelectField from '../../common/form/multiSelectField';
 
-const UserEditLayout = ({ id }) => {
-  const { replace } = useHistory();
+const EditUserLayout = ({ id }) => {
+  const history = useHistory();
   const [data, setData] = useState();
   const [errors, setErrors] = useState({});
   const [professions, setProfessions] = useState();
@@ -84,10 +84,10 @@ const UserEditLayout = ({ id }) => {
     if (!isValid) return;
 
     api.users.patch(id, convertToPatch(data));
-    replace(`/users/${id}`);
+    history.goBack();
   };
 
-  const handleCancel = () => replace(`/users/${id}`);
+  const handleCancel = () => history.goBack();
 
   const renderForm = () => (
     <>
@@ -158,8 +158,8 @@ const UserEditLayout = ({ id }) => {
   );
 };
 
-UserEditLayout.propTypes = {
+EditUserLayout.propTypes = {
   id: PropTypes.string.isRequired,
 };
 
-export default UserEditLayout;
+export default EditUserLayout;

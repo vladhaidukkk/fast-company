@@ -1,16 +1,50 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useParams } from 'react-router-dom';
-import UserEditLayout from '../userEditLayout';
-import UserInfoLayout from '../userInfoLayout';
+import { useHistory } from 'react-router-dom';
+import api from '../../../api';
+import UserCard from '../../ui/userCard';
+import QualitiesCard from '../../ui/qualitiesCard';
+import Comments from '../../ui/comments';
+import CompletedMeetingsCard from '../../ui/completedMeetingsCard';
 
 const UserLayout = ({ id }) => {
-  const { status } = useParams();
+  const { push } = useHistory();
+  const [user, setUser] = useState();
+  const [error, setError] = useState();
 
-  if (status === 'edit') {
-    return <UserEditLayout id={id} />;
+  useEffect(() => {
+    api.users.getById(id)
+      .then((data) => setUser(data))
+      .catch((err) => setError(err));
+  }, []);
+
+  if (error) {
+    return (
+      <div className="m-2">
+        <h2><span className="badge bg-danger">{error.message}</span></h2>
+        <button type="button" className="btn btn-primary" onClick={() => push('/users')}>All users</button>
+      </div>
+    );
   }
-  return <UserInfoLayout id={id} />;
+
+  if (!user) {
+    return <h2><span className="badge bg-primary m-2">Loading user...</span></h2>;
+  }
+
+  return (
+    <div className="container mt-4">
+      <div className="row gutters-sm">
+        <div className="col-md-4 mb-3">
+          <UserCard data={user} />
+          <QualitiesCard data={user.qualities} />
+          <CompletedMeetingsCard amount={user.completedMeetings} />
+        </div>
+        <div className="col-md-8">
+          <Comments />
+        </div>
+      </div>
+    </div>
+  );
 };
 
 UserLayout.propTypes = {
