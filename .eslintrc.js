@@ -31,5 +31,7 @@ module.exports = {
     'no-restricted-syntax': 'off',
     'guard-for-in': 'off',
     'no-shadow': 'off',
+    'jsx-a11y/control-has-associated-label': 'off',
+    'import/no-named-as-default-member': 'off',
   },
 };
