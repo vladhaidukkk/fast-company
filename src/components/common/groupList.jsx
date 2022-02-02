@@ -9,7 +9,7 @@ const GroupList = ({
       <button
         key={item[uniqueProp]}
         type="button"
-        className={`list-group-item list-group-item-action${item === selectedItem ? ' active' : ''}`}
+        className={`list-group-item list-group-item-action${item._id === selectedItem ? ' active' : ''}`}
         onClick={() => onItemSelect(item)}
       >
         {item[contentProp]}
@@ -19,7 +19,7 @@ const GroupList = ({
 );
 
 GroupList.defaultProps = {
-  uniqueProp: 'id',
+  uniqueProp: '_id',
   contentProp: 'name',
   selectedItem: undefined,
 };
@@ -29,7 +29,7 @@ GroupList.propTypes = {
   onItemSelect: PropTypes.func.isRequired,
   uniqueProp: PropTypes.string,
   contentProp: PropTypes.string,
-  selectedItem: PropTypes.object,
+  selectedItem: PropTypes.string,
 };
 
 export default GroupList;

@@ -33,5 +33,9 @@ module.exports = {
     'no-shadow': 'off',
     'jsx-a11y/control-has-associated-label': 'off',
     'import/no-named-as-default-member': 'off',
+    'react/jsx-no-constructed-context-values': 'off',
+    'no-unsafe-optional-chaining': 'off',
+    'no-nested-ternary': 'off',
+    'no-underscore-dangle': 'off',
   },
 };

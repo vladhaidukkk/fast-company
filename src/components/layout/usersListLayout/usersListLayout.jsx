@@ -1,39 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import _ from 'lodash';
 import { paginate } from '../../../utils/paginate';
-import api from '../../../api';
 import GroupList from '../../common/groupList';
 import Status from '../../ui/status';
 import UsersTable from '../../ui/usersTable';
 import Pagination from '../../common/pagination';
 import Search from '../../common/search';
+import { useUsers } from '../../../hooks/useUsers.hook';
+import { useProfessions } from '../../../hooks/useProfessions.hook';
 
 const UsersListLayout = () => {
   const USERS_ON_PAGE = 6;
 
-  const [users, setUsers] = useState();
-  const [professions, setProfessions] = useState();
+  const { users } = useUsers();
+  const { isLoading: isLoadingProfessions, professions } = useProfessions();
   const [searchValue, setSearchValue] = useState('');
   const [selectedProf, setSelectedProf] = useState();
   const [sortBy, setSortBy] = useState({ iter: 'name', order: 'asc' });
   const [currentIndex, setCurrentIndex] = useState(1);
 
-  useEffect(() => {
-    api.users.getAll().then((data) => setUsers(data));
-    api.professions.getAll().then((data) => setProfessions(data));
-  }, []);
-
   useEffect(() => setCurrentIndex(1), [selectedProf]);
-
-  if (!users) {
-    return <h2><span className="badge bg-primary m-2">Loading users...</span></h2>;
-  }
 
   let filteredUsers;
   if (searchValue) {
     filteredUsers = users.filter((user) => new RegExp(searchValue, 'i').test(user.name));
   } else if (selectedProf) {
-    filteredUsers = users.filter((user) => _.isEqual(user.profession, selectedProf));
+    filteredUsers = users.filter((user) => user.profession === selectedProf);
   } else {
     filteredUsers = users;
   }
@@ -47,15 +39,19 @@ const UsersListLayout = () => {
   }
 
   const handleBookmarkToggle = (id) => {
-    setUsers(users.map((user) => {
-      if (user.id === id) {
-        return { ...user, bookmark: !user.bookmark };
-      }
-      return user;
-    }));
+    // setUsers(users.map((user) => {
+    //   if (user.id === id) {
+    //     return { ...user, bookmark: !user.bookmark };
+    //   }
+    //   return user;
+    // }));
+    console.log(id);
   };
 
-  const handleDelete = (id) => setUsers(users.filter((user) => user.id !== id));
+  const handleDelete = (id) => {
+    // setUsers(users.filter((user) => user.id !== id));
+    console.log(id);
+  };
 
   const handleSearch = ({ target }) => {
     setSearchValue(target.value);
@@ -63,7 +59,7 @@ const UsersListLayout = () => {
   };
 
   const handleProfessionSelect = (prof) => {
-    setSelectedProf(prof);
+    setSelectedProf(prof._id);
     setSearchValue('');
   };
 
@@ -75,7 +71,7 @@ const UsersListLayout = () => {
 
   return (
     <div className="d-flex">
-      {professions && (
+      {!isLoadingProfessions && (
         <div className="w-25 p-2">
           <GroupList
             items={professions}
