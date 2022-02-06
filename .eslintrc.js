@@ -37,5 +37,6 @@ module.exports = {
     'no-unsafe-optional-chaining': 'off',
     'no-nested-ternary': 'off',
     'no-underscore-dangle': 'off',
+    'no-await-in-loop': 'off',
   },
 };
