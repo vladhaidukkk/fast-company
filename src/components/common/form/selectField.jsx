@@ -8,17 +8,17 @@ const SelectField = ({
 
   const getDefaultOption = () => (Object.keys(options).length !== 0 ? defaultOption : 'Loading options...');
 
-  const renderOptions = () => Object.values(options)
+  const renderOptions = () => (Array.isArray(options) ? Object.values(options)
     .map((option) => {
       const values = Object.values(option);
       return {
         value: values[0],
-        text: values[1],
+        label: values[1],
       };
     })
     .map((option) => (
-      <option key={option.value} value={option.value}>{option.text}</option>
-    ));
+      <option key={option.value} value={option.value}>{option.label}</option>
+    )) : options);
 
   const handleChange = ({ target }) => onChange({ name, value: target.value });
 
