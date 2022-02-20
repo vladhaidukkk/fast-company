@@ -37,8 +37,15 @@ export const UsersProvider = ({ children }) => {
     }
   }, [error]);
 
+  const getUser = (id) => users.find((user) => user._id === id);
+
+  const updateUser = (id, data) => {
+    const userId = users.findIndex((user) => user._id === id);
+    users[userId] = { ...users[userId], ...data };
+  };
+
   return (
-    <UsersContext.Provider value={{ users }}>
+    <UsersContext.Provider value={{ users, getUser, updateUser }}>
       {!isLoading ? children : <h2><span className="badge bg-primary m-2">Users loading...</span></h2>}
     </UsersContext.Provider>
   );

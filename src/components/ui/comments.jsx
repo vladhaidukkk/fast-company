@@ -1,31 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
-import _ from 'lodash';
-import api from '../../api';
 import CommentsList from '../common/comments/commentsList';
 import CommentForm from '../common/comments/commentForm';
+import useComments from '../../hooks/useComments';
 
 const Comments = () => {
   const { userId } = useParams();
-  const [comments, setComments] = useState();
+  const {
+    isLoading, comments, createComment, deleteComment,
+  } = useComments();
 
-  const orderedComments = _.orderBy(comments, 'createdAt', 'desc');
-
-  useEffect(() => {
-    api.comments.getByUserId(userId)
-      .then((data) => setComments(data));
-  }, []);
-
-  const handleSubmit = (commentData) => {
-    api.comments.post({ ...commentData, pageId: userId })
-      .then((newComment) => setComments([...comments, newComment]));
+  const handleSubmit = async (commentData) => {
+    await createComment({ ...commentData, pageId: userId });
   };
 
   const handleCommentDelete = (id) => {
-    api.comments.remove(id)
-      .then((id) => setComments((prevComments) => (
-        prevComments.filter((comment) => comment.id !== id)
-      )));
+    deleteComment(id);
   };
 
   return (
@@ -40,7 +30,7 @@ const Comments = () => {
         <div className="card-body ">
           <h2>Comments</h2>
           <hr />
-          <CommentsList data={orderedComments} onDelete={handleCommentDelete} />
+          {!isLoading ? <CommentsList data={comments} onDelete={handleCommentDelete} /> : 'Loading comments...'}
         </div>
       </div>
     </>

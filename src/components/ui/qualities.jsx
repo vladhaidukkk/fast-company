@@ -18,8 +18,12 @@ const Qualities = ({ items }) => {
   return 'loading...';
 };
 
+Qualities.defaultProps = {
+  items: [],
+};
+
 Qualities.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.string).isRequired,
+  items: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default Qualities;

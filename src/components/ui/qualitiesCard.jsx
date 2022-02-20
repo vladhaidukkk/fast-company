@@ -16,7 +16,7 @@ const QualitiesCard = ({ data }) => (
 );
 
 QualitiesCard.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  data: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default QualitiesCard;

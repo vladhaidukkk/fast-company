@@ -1,18 +1,30 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth.hook';
+import Account from './account';
 
-const Navbar = () => (
-  <ul className="nav">
-    <li className="nav-item">
-      <NavLink to="/" className="nav-link">Main</NavLink>
-    </li>
-    <li className="nav-item">
-      <NavLink to="/auth/login" className="nav-link">Login</NavLink>
-    </li>
-    <li className="nav-item">
-      <NavLink to="/users" className="nav-link">Users</NavLink>
-    </li>
-  </ul>
-);
+const Navbar = () => {
+  const { currentUser } = useAuth();
+
+  return (
+    <div className="navbar bg-light mb-3">
+      <div className="container-fluid">
+        <ul className="nav">
+          <li className="nav-item">
+            <NavLink to="/" className="nav-link">Main</NavLink>
+          </li>
+          {currentUser && (
+            <li className="nav-item">
+              <NavLink to="/users" className="nav-link">Users</NavLink>
+            </li>
+          )}
+        </ul>
+        <div className="d-flex">
+          {currentUser ? <Account /> : <NavLink to="/auth/login" className="nav-link">Login</NavLink>}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default Navbar;

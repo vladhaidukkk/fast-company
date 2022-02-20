@@ -8,10 +8,12 @@ import Pagination from '../../common/pagination';
 import Search from '../../common/search';
 import { useUsers } from '../../../hooks/useUsers.hook';
 import { useProfessions } from '../../../hooks/useProfessions.hook';
+import { useAuth } from '../../../hooks/useAuth.hook';
 
 const UsersListLayout = () => {
   const USERS_ON_PAGE = 6;
 
+  const { currentUser } = useAuth();
   const { users } = useUsers();
   const { isLoading: isLoadingProfessions, professions } = useProfessions();
   const [searchValue, setSearchValue] = useState('');
@@ -29,6 +31,7 @@ const UsersListLayout = () => {
   } else {
     filteredUsers = users;
   }
+  filteredUsers = filteredUsers.filter((user) => user._id !== currentUser._id);
 
   const sortedUsers = _.orderBy(filteredUsers, [sortBy.iter], [sortBy.order]);
   const usersCrop = paginate(sortedUsers, USERS_ON_PAGE, currentIndex);
@@ -45,11 +48,6 @@ const UsersListLayout = () => {
     //   }
     //   return user;
     // }));
-    console.log(id);
-  };
-
-  const handleDelete = (id) => {
-    // setUsers(users.filter((user) => user.id !== id));
     console.log(id);
   };
 
@@ -91,7 +89,6 @@ const UsersListLayout = () => {
               onSort={handleSort}
               sortedBy={sortBy}
               onBookmarkToggle={handleBookmarkToggle}
-              onDelete={handleDelete}
             />
           )}
         <div className="d-flex justify-content-center">

@@ -5,7 +5,7 @@ import Select from 'react-select';
 const MultiSelectField = ({
   label, name, options, onChange, defaultValue,
 }) => {
-  const optionsArray = Array.isArray(options) ? Object.values(options)
+  const optionsArray = !Array.isArray(options) ? Object.values(options)
     .map((option) => {
       const values = Object.values(option);
       return {
@@ -14,7 +14,9 @@ const MultiSelectField = ({
       };
     }) : options;
 
-  const handleChange = (value) => onChange({ name, value });
+  const handleChange = (value) => {
+    onChange({ name, value });
+  };
 
   return (
     <div className="col mb-4">

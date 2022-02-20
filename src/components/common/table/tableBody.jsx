@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { Link } from 'react-router-dom';
 
 const TableBody = ({ data, columns }) => {
-  const renderUserLink = (item) => <Link to={`/users/${item.id}`}>{item.name}</Link>;
+  const renderUserLink = (item) => <Link to={`/users/${item._id}`}>{item.name}</Link>;
 
   const renderContent = (item, column) => {
     const { component } = columns[column];

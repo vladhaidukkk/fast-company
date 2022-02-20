@@ -2,17 +2,25 @@ import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { useHistory } from 'react-router-dom';
 import userService from '../services/user.service';
-import { setTokens } from '../services/localStorage.service';
+import localStorageService, { setTokens } from '../services/localStorage.service';
 
-const httpAuth = axios.create();
+const httpAuth = axios.create({
+  baseURL: 'https://identitytoolkit.googleapis.com/v1/',
+  params: {
+    key: process.env.REACT_APP_FIREBASE_KEY,
+  },
+});
 
 const AuthContext = React.createContext();
 
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
-  const [currentUser, setUser] = useState({});
+  const history = useHistory();
+  const [currentUser, setUser] = useState();
+  const [isLoading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const catchError = (error) => {
@@ -29,9 +37,20 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const setCurrentUser = async () => {
+    try {
+      const { content } = await userService.getCurrentUser();
+      setUser(content);
+    } catch (error) {
+      catchError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const signUp = async ({ email, password, ...rest }) => {
     try {
-      const { data } = await httpAuth.post(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.REACT_APP_FIREBASE_KEY}`, {
+      const { data } = await httpAuth.post('accounts:signUp', {
         email, password, returnSecureToken: true,
       });
       setTokens(data);
@@ -52,10 +71,11 @@ export const AuthProvider = ({ children }) => {
 
   const signIn = async ({ email, password }) => {
     try {
-      const { data } = await httpAuth.post(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.REACT_APP_FIREBASE_KEY}`, {
+      const { data } = await httpAuth.post('accounts:signInWithPassword', {
         email, password, returnSecureToken: true,
       });
       setTokens(data);
+      await setCurrentUser();
     } catch (error) {
       const { code, message } = error.response.data.error;
 
@@ -71,6 +91,20 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const logOut = () => {
+    localStorageService.removeTokens();
+    setUser(null);
+    history.push('/');
+  };
+
+  useEffect(() => {
+    if (localStorageService.getAccessToken()) {
+      setCurrentUser();
+    } else {
+      setLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
     if (error) {
       toast.error(error);
@@ -78,9 +112,21 @@ export const AuthProvider = ({ children }) => {
     }
   }, [error]);
 
+  const updateCurrentUser = async (data) => {
+    try {
+      await userService.patch(currentUser._id, data);
+      setUser((prev) => ({ ...prev, ...data }));
+    } catch (error) {
+      catchError(error);
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ signUp, signIn, currentUser }}>
-      {children}
+    <AuthContext.Provider value={{
+      signUp, signIn, currentUser, logOut, updateCurrentUser,
+    }}
+    >
+      {!isLoading ? children : 'loading...'}
     </AuthContext.Provider>
   );
 };
