@@ -1,23 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth.hook';
 
 const UserCard = ({ data }) => {
+  const { currentUser } = useAuth();
   const { push } = useHistory();
 
   return (
     <div className="card mb-3">
       <div className="card-body">
-        <button type="button" className="position-absolute top-0 end-0 btn btn-light btn-sm" onClick={() => push(`/users/${data.id}/edit`)}>
-          <i className="bi bi-gear" />
-        </button>
+        {currentUser._id === data._id && (
+          <button type="button" className="position-absolute top-0 end-0 btn btn-light btn-sm" onClick={() => push(`/users/${data._id}/edit`)}>
+            <i className="bi bi-gear" />
+          </button>
+        )}
         <div className="d-flex flex-column align-items-center text-center position-relative">
           <img
-            src={`https://avatars.dicebear.com/api/avataaars/${(
-              Math.random() + 1
-            )
-              .toString(36)
-              .substring(7)}.svg`}
+            src={data.avatarImg}
             className="rounded-circle"
             width="150"
             alt="User avatar"

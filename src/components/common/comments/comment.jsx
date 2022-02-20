@@ -1,18 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import api from '../../../api';
+import { useParams } from 'react-router-dom';
 import { formatDate } from '../../../utils/date';
+import { useUsers } from '../../../hooks/useUsers.hook';
+import { useAuth } from '../../../hooks/useAuth.hook';
 
 const Comment = ({
-  id, userId: creatorId, content, createdAt, onDelete,
+  _id: id, userId: creatorId, content, createdAt, onDelete,
 }) => {
-  const [creator, setCreator] = useState();
+  const { userId: pageId } = useParams();
+  const { currentUser } = useAuth();
+  const { getUser } = useUsers();
+  const creator = getUser(creatorId);
 
-  useEffect(() => {
-    api.users.getById(creatorId)
-      .then((data) => setCreator(data))
-      .catch((error) => console.log(`Comment id-${creatorId}: ${error}`));
-  }, []);
+  const handleDelete = () => {
+    onDelete(id);
+  };
 
   return (
     <div className="bg-light card-body  mb-3">
@@ -21,11 +24,7 @@ const Comment = ({
           <div className="col">
             <div className="d-flex flex-start ">
               <img
-                src={`https://avatars.dicebear.com/api/avataaars/${(
-                  Math.random() + 1
-                )
-                  .toString(36)
-                  .substring(7)}.svg`}
+                src={creator.avatarImg}
                 className="rounded-circle shadow-1-strong me-3"
                 alt="avatar"
                 width="65"
@@ -38,12 +37,14 @@ const Comment = ({
                       {creator.name}
                       <span className="small">
                         {' - '}
-                        {formatDate(Number(createdAt))}
+                        {formatDate(createdAt)}
                       </span>
                     </p>
-                    <button type="button" className="btn btn-sm text-primary d-flex align-items-center" onClick={() => onDelete(id)}>
-                      <i className="bi bi-x-lg" />
-                    </button>
+                    {(currentUser._id === creatorId || currentUser._id === pageId) && (
+                      <button type="button" className="btn btn-sm text-primary d-flex align-items-center" onClick={handleDelete}>
+                        <i className="bi bi-x-lg" />
+                      </button>
+                    )}
                   </div>
                   <p className="small mb-0">{content}</p>
                 </div>
@@ -57,10 +58,10 @@ const Comment = ({
 };
 
 Comment.propTypes = {
-  id: PropTypes.string.isRequired,
+  _id: PropTypes.string.isRequired,
   userId: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
-  createdAt: PropTypes.string.isRequired,
+  createdAt: PropTypes.number.isRequired,
   onDelete: PropTypes.func.isRequired,
 };
 

@@ -6,7 +6,7 @@ import Qualities from './qualities';
 import Profession from './profession';
 
 const UsersTable = ({
-  users, onSort, sortedBy, onDelete, onBookmarkToggle,
+  users, onSort, sortedBy, onBookmarkToggle,
 }) => {
   const columns = {
     name: { path: 'name', name: 'Имя' },
@@ -18,13 +18,11 @@ const UsersTable = ({
       path: 'bookmark',
       name: 'Избранное',
       component: (user) => (
-        <Bookmark userId={user.id} selected={user.bookmark} onBookmarkToggle={onBookmarkToggle} />),
-    },
-    delete: {
-      component: (user) => (
-        <button type="button" className="btn btn-danger" onClick={() => onDelete(user.id)}>
-          <i className="bi bi-person-dash" />
-        </button>
+        <Bookmark
+          userId={user._id}
+          selected={false}
+          onBookmarkToggle={onBookmarkToggle}
+        />
       ),
     },
   };
@@ -41,7 +39,6 @@ UsersTable.propTypes = {
   users: PropTypes.arrayOf(PropTypes.object).isRequired,
   onSort: PropTypes.func.isRequired,
   sortedBy: PropTypes.object.isRequired,
-  onDelete: PropTypes.func.isRequired,
   onBookmarkToggle: PropTypes.func.isRequired,
 };
 

@@ -10,6 +10,7 @@ import Error404 from './pages/error404';
 import { ProfessionsProvider } from './hooks/useProfessions.hook';
 import { QualitiesProvider } from './hooks/useQualities.hook';
 import { AuthProvider } from './hooks/useAuth.hook';
+import ProtectedRoute from './components/common/protectedRoute';
 
 const App = () => (
   <>
@@ -20,7 +21,7 @@ const App = () => (
           <Switch>
             <Route path="/" exact component={Main} />
             <Route path="/auth" component={Auth} />
-            <Route path="/users/:userId?/:status?" component={Users} />
+            <ProtectedRoute path="/users/:userId?/:status?" component={Users} />
             <Route path="/404" component={Error404} />
             <Redirect to="/" path="/main" />
             <Redirect to="/auth/login" path="/login" />

@@ -14,7 +14,7 @@ const RegisterForm = () => {
   const history = useHistory();
 
   const [data, setData] = useState({
-    email: '', password: '', profession: '', gender: 'male', qualities: [], acceptLicense: false,
+    name: '', email: '', password: '', profession: '', gender: 'male', qualities: [], acceptLicense: false,
   });
   const { professions } = useProfessions();
   const professionsList = professions.map((profession) => (
@@ -26,6 +26,9 @@ const RegisterForm = () => {
   const { signUp } = useAuth();
 
   const validationConfig = {
+    name: {
+      isRequired: (dataItem) => (dataItem.trim() === '' ? 'Name must be specified' : undefined),
+    },
     email: {
       isRequired: (dataItem) => (dataItem.trim() === '' ? 'Email must be specified' : undefined),
       isEmail: (dataItem) => (!/^\S+@\S+\.\S+$/.test(dataItem) ? 'Email input is invalid' : undefined),
@@ -66,7 +69,17 @@ const RegisterForm = () => {
     event.preventDefault();
     const isValid = validate();
     if (!isValid) return;
-    const newData = { ...data, qualities: data.qualities.map((q) => q.value) };
+    const newData = {
+      ...data,
+      qualities: data.qualities.map((q) => q.value),
+      completedMeetings: 0,
+      rate: 0,
+      avatarImg: `https://avatars.dicebear.com/api/avataaars/${(
+        Math.random() + 1
+      )
+        .toString(36)
+        .substring(7)}.svg`,
+    };
 
     try {
       await signUp(newData);
@@ -80,6 +93,7 @@ const RegisterForm = () => {
     <>
       <h3 className="mb-4">Register</h3>
       <form onSubmit={handleSubmit}>
+        <TextField label="Name" name="name" value={data.name} onChange={handleChange} error={errors.name} />
         <TextField label="Email" name="email" value={data.email} onChange={handleChange} error={errors.email} />
         <TextField label="Password" type="password" name="password" value={data.password} onChange={handleChange} error={errors.password} />
         <SelectField label="Profession" options={professionsList} name="profession" value={data.profession} onChange={handleChange} error={errors.profession} />

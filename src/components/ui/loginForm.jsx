@@ -50,11 +50,10 @@ const LoginForm = () => {
     event.preventDefault();
     validate().then(async (isValid) => {
       if (!isValid) return;
-      console.log(data);
 
       try {
         await signIn(data);
-        history.push('/');
+        history.push(history.location.state?.from.pathname ? history.location.state.from.pathname : '/');
       } catch (error) {
         setErrors(error);
       }

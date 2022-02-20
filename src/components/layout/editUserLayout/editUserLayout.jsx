@@ -1,43 +1,55 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { validator } from '../../../utils/validator';
-import api from '../../../api';
 import TextField from '../../common/form/textField';
 import SelectField from '../../common/form/selectField';
 import RadioField from '../../common/form/radioField';
 import MultiSelectField from '../../common/form/multiSelectField';
+import { useAuth } from '../../../hooks/useAuth.hook';
+import { useProfessions } from '../../../hooks/useProfessions.hook';
+import { useQualities } from '../../../hooks/useQualities.hook';
+import { useUsers } from '../../../hooks/useUsers.hook';
 
-const EditUserLayout = ({ id }) => {
+const EditUserLayout = () => {
   const history = useHistory();
-  const [data, setData] = useState();
-  const [errors, setErrors] = useState({});
-  const [professions, setProfessions] = useState();
-  const [qualities, setQualities] = useState();
+  const { userId } = useParams();
+  const { professions } = useProfessions();
+  const { isLoading: qualitiesLoading, qualities, getQuality } = useQualities();
+  const { currentUser, updateCurrentUser } = useAuth();
+  const { updateUser } = useUsers();
 
   const convertToUse = (data) => ({
     name: data.name,
     email: data.email,
-    profession: data.profession.id,
+    profession: data.profession,
     gender: data.gender,
-    qualities: data.qualities.map((quality) => ({
-      label: quality.name,
-      value: quality.id,
-    })),
+    qualities: !qualitiesLoading ? data.qualities.map((quality) => ({
+      label: getQuality(quality).name,
+      value: quality,
+    })) : [],
   });
+
+  const [data, setData] = useState(convertToUse(currentUser));
+  const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    if (!qualitiesLoading) {
+      setData(() => convertToUse(currentUser));
+    }
+  }, [qualitiesLoading]);
 
   const convertToPatch = (data) => ({
     name: data.name,
     email: data.email,
-    profession: professions.find((profession) => profession.id === data.profession),
+    profession: data.profession,
     gender: data.gender,
-    qualities: data.qualities.reduce((list, dataQuality) => {
-      list.push(Object.values(qualities).find((quality) => quality.id === dataQuality.value));
-      return list;
-    }, []),
+    qualities: data.qualities.map((quality) => quality.value),
   });
 
   const validationConfig = {
+    name: {
+      isRequired: (dataItem) => (dataItem.trim() === '' ? 'Name must be specified' : undefined),
+    },
     email: {
       isRequired: (dataItem) => (dataItem.trim() === '' ? 'Email must be specified' : undefined),
       isEmail: (dataItem) => (!/^\S+@\S+\.\S+$/.test(dataItem) ? 'Email input is invalid' : undefined),
@@ -54,19 +66,6 @@ const EditUserLayout = ({ id }) => {
   };
 
   useEffect(() => {
-    let mount = true;
-
-    api.users.getById(id)
-      .then((data) => mount && setData(convertToUse(data)));
-    api.professions.getAll()
-      .then((data) => mount && setProfessions(data));
-    api.qualities.getAll()
-      .then((data) => mount && setQualities(data));
-
-    return () => { mount = false; };
-  }, []);
-
-  useEffect(() => {
     validate();
   }, [data]);
 
@@ -77,17 +76,23 @@ const EditUserLayout = ({ id }) => {
     }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     const isValid = validate();
     if (!isValid) return;
 
-    api.users.patch(id, convertToPatch(data));
-    history.goBack();
+    const newData = convertToPatch(data);
+    updateUser(userId, newData);
+    await updateCurrentUser(newData);
+    history.push(`/users/${userId}`);
   };
 
   const handleCancel = () => history.goBack();
+
+  if (currentUser._id !== userId) {
+    history.push(`/users/${userId}`);
+  }
 
   const renderForm = () => (
     <>
@@ -125,7 +130,7 @@ const EditUserLayout = ({ id }) => {
         <MultiSelectField
           label="Qualities"
           name="qualities"
-          options={qualities}
+          options={qualities.map((quality) => ({ label: quality.name, value: quality._id }))}
           onChange={handleChange}
           defaultValue={data.qualities}
         />
@@ -156,10 +161,6 @@ const EditUserLayout = ({ id }) => {
       </div>
     </div>
   );
-};
-
-EditUserLayout.propTypes = {
-  id: PropTypes.string.isRequired,
 };
 
 export default EditUserLayout;

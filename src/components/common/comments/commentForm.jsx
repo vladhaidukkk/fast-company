@@ -1,21 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import * as yup from 'yup';
 import PropTypes from 'prop-types';
 import TextareaField from '../form/textareaField';
-import SelectField from '../form/selectField';
-import api from '../../../api';
 
-const initialData = { content: '', userId: '' };
+const initialData = { content: '' };
 
 const CommentForm = ({ onSubmit }) => {
   const [data, setData] = useState(initialData);
   const [errors, setErrors] = useState({});
-  const [users, setUsers] = useState();
 
   /* Here I use Validation with Yup library */
   const validationScheme = yup.object().shape({
     content: yup.string().required('Message can\'t be empty'),
-    userId: yup.string().required('User should be selected'),
   });
 
   const validate = async () => {
@@ -28,11 +24,6 @@ const CommentForm = ({ onSubmit }) => {
       return false;
     }
   };
-
-  useEffect(() => {
-    api.users.getAll()
-      .then((data) => setUsers(data));
-  }, []);
 
   const handleChange = (dataItem) => {
     setData((prevState) => ({
@@ -56,7 +47,6 @@ const CommentForm = ({ onSubmit }) => {
       <div className="card-body ">
         <h3 className="mb-4">New comment</h3>
         <form onSubmit={handleSubmit}>
-          <SelectField value={data.userId} name="userId" onChange={handleChange} error={errors.userId} options={users} defaultOption="Choose a user..." />
           <TextareaField label="Message" onChange={handleChange} name="content" value={data.content} error={errors.content} />
           <div className="d-flex justify-content-end">
             <button className="btn btn-primary" type="submit">Publish</button>
