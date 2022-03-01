@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import _ from 'lodash';
+import { useSelector } from 'react-redux';
 import { paginate } from '../../../utils/paginate';
 import GroupList from '../../common/groupList';
 import Status from '../../ui/status';
@@ -7,15 +8,16 @@ import UsersTable from '../../ui/usersTable';
 import Pagination from '../../common/pagination';
 import Search from '../../common/search';
 import { useUsers } from '../../../hooks/useUsers.hook';
-import { useProfessions } from '../../../hooks/useProfessions.hook';
 import { useAuth } from '../../../hooks/useAuth.hook';
+import { getProfessions, getProfessionsLoading } from '../../../store/reducers/professions';
 
 const UsersListLayout = () => {
   const USERS_ON_PAGE = 6;
 
   const { currentUser } = useAuth();
   const { users } = useUsers();
-  const { isLoading: isLoadingProfessions, professions } = useProfessions();
+  const professions = useSelector(getProfessions());
+  const isLoadingProfessions = useSelector(getProfessionsLoading());
   const [searchValue, setSearchValue] = useState('');
   const [selectedProf, setSelectedProf] = useState();
   const [sortBy, setSortBy] = useState({ iter: 'name', order: 'asc' });

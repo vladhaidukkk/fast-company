@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { validator } from '../../utils/validator';
 import TextField from '../common/form/textField';
 import SelectField from '../common/form/selectField';
 import RadioField from '../common/form/radioField';
 import MultiSelectField from '../common/form/multiSelectField';
 import CheckboxField from '../common/form/checkboxField';
-import { useProfessions } from '../../hooks/useProfessions.hook';
-import { useQualities } from '../../hooks/useQualities.hook';
 import { useAuth } from '../../hooks/useAuth.hook';
+import { getQualities } from '../../store/reducers/qualities';
+import { getProfessions } from '../../store/reducers/professions';
 
 const RegisterForm = () => {
   const history = useHistory();
@@ -16,11 +17,11 @@ const RegisterForm = () => {
   const [data, setData] = useState({
     name: '', email: '', password: '', profession: '', gender: 'male', qualities: [], acceptLicense: false,
   });
-  const { professions } = useProfessions();
+  const professions = useSelector(getProfessions());
   const professionsList = professions.map((profession) => (
     { value: profession._id, label: profession.name }
   ));
-  const { qualities } = useQualities();
+  const qualities = useSelector(getQualities());
   const qualitiesList = qualities.map((quality) => ({ value: quality._id, label: quality.name }));
   const [errors, setErrors] = useState({});
   const { signUp } = useAuth();
