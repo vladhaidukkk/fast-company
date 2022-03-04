@@ -1,17 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useHistory } from 'react-router-dom';
 import userService from '../services/user.service';
 import localStorageService, { setTokens } from '../services/localStorage.service';
-
-const httpAuth = axios.create({
-  baseURL: 'https://identitytoolkit.googleapis.com/v1/',
-  params: {
-    key: process.env.REACT_APP_FIREBASE_KEY,
-  },
-});
+import httpAuth from '../services/auth.service';
 
 const AuthContext = React.createContext();
 
@@ -50,9 +43,7 @@ export const AuthProvider = ({ children }) => {
 
   const signUp = async ({ email, password, ...rest }) => {
     try {
-      const { data } = await httpAuth.post('accounts:signUp', {
-        email, password, returnSecureToken: true,
-      });
+      const data = await httpAuth.register({ email, password });
       setTokens(data);
       await createUser({ _id: data.localId, email, ...rest });
     } catch (error) {
@@ -71,9 +62,7 @@ export const AuthProvider = ({ children }) => {
 
   const signIn = async ({ email, password }) => {
     try {
-      const { data } = await httpAuth.post('accounts:signInWithPassword', {
-        email, password, returnSecureToken: true,
-      });
+      const data = await httpAuth.login({ email, password });
       setTokens(data);
       await setCurrentUser();
     } catch (error) {

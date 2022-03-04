@@ -39,8 +39,7 @@ export const fetchProfessions = () => async (dispatch, getState) => {
       const { content } = await professionService.get();
       dispatch(received(content));
     } catch (err) {
-      const { status, statusText: message } = err.response;
-      dispatch(requestFailed({ message, status }));
+      dispatch(requestFailed({ message: err.message }));
     }
   }
 };

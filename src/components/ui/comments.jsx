@@ -1,21 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import CommentsList from '../common/comments/commentsList';
 import CommentForm from '../common/comments/commentForm';
-import useComments from '../../hooks/useComments';
+import {
+  createComment, deleteComment,
+  fetchComments,
+  getComments,
+  getCommentsLoading,
+} from '../../store/reducers/comments';
 
 const Comments = () => {
   const { userId } = useParams();
-  const {
-    isLoading, comments, createComment, deleteComment,
-  } = useComments();
+  const dispatch = useDispatch();
+  const comments = useSelector(getComments());
+  const isLoading = useSelector(getCommentsLoading());
 
-  const handleSubmit = async (commentData) => {
-    await createComment({ ...commentData, pageId: userId });
+  useEffect(() => {
+    dispatch(fetchComments(userId));
+  }, [userId]);
+
+  const handleSubmit = (commentData) => {
+    dispatch(createComment({ ...commentData, pageId: userId }));
   };
 
   const handleCommentDelete = (id) => {
-    deleteComment(id);
+    dispatch(deleteComment(id));
   };
 
   return (

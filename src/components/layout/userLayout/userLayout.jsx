@@ -1,17 +1,16 @@
 import React from 'react';
 import { useHistory, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import UserCard from '../../ui/userCard';
 import QualitiesCard from '../../ui/qualitiesCard';
 import Comments from '../../ui/comments';
 import CompletedMeetingsCard from '../../ui/completedMeetingsCard';
-import { useUsers } from '../../../hooks/useUsers.hook';
-import { CommentsProvider } from '../../../hooks/useComments';
+import { getUserById } from '../../../store/reducers/users';
 
 const UserLayout = () => {
   const { userId } = useParams();
-  const { getUser } = useUsers();
   const { push } = useHistory();
-  const user = getUser(userId);
+  const user = useSelector(getUserById(userId));
 
   if (!user) {
     return (
@@ -31,9 +30,7 @@ const UserLayout = () => {
           <CompletedMeetingsCard amount={user.completedMeetings} />
         </div>
         <div className="col-md-8">
-          <CommentsProvider>
-            <Comments />
-          </CommentsProvider>
+          <Comments />
         </div>
       </div>
     </div>

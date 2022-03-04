@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { validator } from '../../../utils/validator';
 import TextField from '../../common/form/textField';
 import SelectField from '../../common/form/selectField';
 import RadioField from '../../common/form/radioField';
 import MultiSelectField from '../../common/form/multiSelectField';
-import { useAuth } from '../../../hooks/useAuth.hook';
-import { useUsers } from '../../../hooks/useUsers.hook';
 import { getQualities, getQualitiesLoading } from '../../../store/reducers/qualities';
 import { getProfessions } from '../../../store/reducers/professions';
+import { getCurrentUserData, updateCurrentUser } from '../../../store/reducers/users';
 
 const EditUserLayout = () => {
   const history = useHistory();
@@ -17,8 +16,8 @@ const EditUserLayout = () => {
   const professions = useSelector(getProfessions());
   const qualities = useSelector(getQualities());
   const qualitiesLoading = useSelector(getQualitiesLoading());
-  const { currentUser, updateCurrentUser } = useAuth();
-  const { updateUser } = useUsers();
+  const currentUser = useSelector(getCurrentUserData());
+  const dispatch = useDispatch();
 
   const convertToUse = (data) => ({
     name: data.name,
@@ -85,9 +84,7 @@ const EditUserLayout = () => {
     if (!isValid) return;
 
     const newData = convertToPatch(data);
-    updateUser(userId, newData);
-    await updateCurrentUser(newData);
-    history.push(`/users/${userId}`);
+    dispatch(updateCurrentUser(newData));
   };
 
   const handleCancel = () => history.goBack();

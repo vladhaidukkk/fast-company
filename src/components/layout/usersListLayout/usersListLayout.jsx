@@ -7,15 +7,14 @@ import Status from '../../ui/status';
 import UsersTable from '../../ui/usersTable';
 import Pagination from '../../common/pagination';
 import Search from '../../common/search';
-import { useUsers } from '../../../hooks/useUsers.hook';
-import { useAuth } from '../../../hooks/useAuth.hook';
 import { getProfessions, getProfessionsLoading } from '../../../store/reducers/professions';
+import { getCurrentUserId, getUsers } from '../../../store/reducers/users';
 
 const UsersListLayout = () => {
   const USERS_ON_PAGE = 6;
 
-  const { currentUser } = useAuth();
-  const { users } = useUsers();
+  const currentUserId = useSelector(getCurrentUserId());
+  const users = useSelector(getUsers());
   const professions = useSelector(getProfessions());
   const isLoadingProfessions = useSelector(getProfessionsLoading());
   const [searchValue, setSearchValue] = useState('');
@@ -33,7 +32,7 @@ const UsersListLayout = () => {
   } else {
     filteredUsers = users;
   }
-  filteredUsers = filteredUsers.filter((user) => user._id !== currentUser._id);
+  filteredUsers = filteredUsers.filter((user) => user._id !== currentUserId);
 
   const sortedUsers = _.orderBy(filteredUsers, [sortBy.iter], [sortBy.order]);
   const usersCrop = paginate(sortedUsers, USERS_ON_PAGE, currentIndex);

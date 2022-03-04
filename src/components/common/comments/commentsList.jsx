@@ -17,8 +17,12 @@ const CommentsList = ({ data, onDelete }) => {
   );
 };
 
+CommentsList.defaultProps = {
+  data: [],
+};
+
 CommentsList.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  data: PropTypes.arrayOf(PropTypes.object),
   onDelete: PropTypes.func.isRequired,
 };
 

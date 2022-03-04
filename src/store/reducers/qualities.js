@@ -39,8 +39,7 @@ export const fetchQualities = () => async (dispatch, getState) => {
       const { content } = await qualityService.get();
       dispatch(received(content));
     } catch (err) {
-      const { statusText, status } = err.response;
-      dispatch(requestFailed({ message: statusText, status }));
+      dispatch(requestFailed({ message: err.message }));
     }
   }
 };
