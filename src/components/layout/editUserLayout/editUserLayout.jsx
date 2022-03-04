@@ -1,31 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { validator } from '../../../utils/validator';
 import TextField from '../../common/form/textField';
 import SelectField from '../../common/form/selectField';
 import RadioField from '../../common/form/radioField';
 import MultiSelectField from '../../common/form/multiSelectField';
-import { useAuth } from '../../../hooks/useAuth.hook';
-import { useProfessions } from '../../../hooks/useProfessions.hook';
-import { useQualities } from '../../../hooks/useQualities.hook';
-import { useUsers } from '../../../hooks/useUsers.hook';
+import { getQualities, getQualitiesLoading } from '../../../store/reducers/qualities';
+import { getProfessions } from '../../../store/reducers/professions';
+import { getCurrentUserData, updateCurrentUser } from '../../../store/reducers/users';
 
 const EditUserLayout = () => {
   const history = useHistory();
   const { userId } = useParams();
-  const { professions } = useProfessions();
-  const { isLoading: qualitiesLoading, qualities, getQuality } = useQualities();
-  const { currentUser, updateCurrentUser } = useAuth();
-  const { updateUser } = useUsers();
+  const professions = useSelector(getProfessions());
+  const qualities = useSelector(getQualities());
+  const qualitiesLoading = useSelector(getQualitiesLoading());
+  const currentUser = useSelector(getCurrentUserData());
+  const dispatch = useDispatch();
 
   const convertToUse = (data) => ({
     name: data.name,
     email: data.email,
     profession: data.profession,
     gender: data.gender,
-    qualities: !qualitiesLoading ? data.qualities.map((quality) => ({
-      label: getQuality(quality).name,
-      value: quality,
+    qualities: !qualitiesLoading ? data.qualities.map((qualId) => ({
+      label: qualities.find((quality) => quality._id === qualId).name,
+      value: qualId,
     })) : [],
   });
 
@@ -83,9 +84,7 @@ const EditUserLayout = () => {
     if (!isValid) return;
 
     const newData = convertToPatch(data);
-    updateUser(userId, newData);
-    await updateCurrentUser(newData);
-    history.push(`/users/${userId}`);
+    dispatch(updateCurrentUser(newData));
   };
 
   const handleCancel = () => history.goBack();

@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import _ from 'lodash';
+import { useSelector } from 'react-redux';
 import { paginate } from '../../../utils/paginate';
 import GroupList from '../../common/groupList';
 import Status from '../../ui/status';
 import UsersTable from '../../ui/usersTable';
 import Pagination from '../../common/pagination';
 import Search from '../../common/search';
-import { useUsers } from '../../../hooks/useUsers.hook';
-import { useProfessions } from '../../../hooks/useProfessions.hook';
-import { useAuth } from '../../../hooks/useAuth.hook';
+import { getProfessions, getProfessionsLoading } from '../../../store/reducers/professions';
+import { getCurrentUserId, getUsers } from '../../../store/reducers/users';
 
 const UsersListLayout = () => {
   const USERS_ON_PAGE = 6;
 
-  const { currentUser } = useAuth();
-  const { users } = useUsers();
-  const { isLoading: isLoadingProfessions, professions } = useProfessions();
+  const currentUserId = useSelector(getCurrentUserId());
+  const users = useSelector(getUsers());
+  const professions = useSelector(getProfessions());
+  const isLoadingProfessions = useSelector(getProfessionsLoading());
   const [searchValue, setSearchValue] = useState('');
   const [selectedProf, setSelectedProf] = useState();
   const [sortBy, setSortBy] = useState({ iter: 'name', order: 'asc' });
@@ -31,7 +32,7 @@ const UsersListLayout = () => {
   } else {
     filteredUsers = users;
   }
-  filteredUsers = filteredUsers.filter((user) => user._id !== currentUser._id);
+  filteredUsers = filteredUsers.filter((user) => user._id !== currentUserId);
 
   const sortedUsers = _.orderBy(filteredUsers, [sortBy.iter], [sortBy.order]);
   const usersCrop = paginate(sortedUsers, USERS_ON_PAGE, currentIndex);

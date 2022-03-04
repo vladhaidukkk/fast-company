@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import * as yup from 'yup';
+import { useDispatch, useSelector } from 'react-redux';
 import TextField from '../common/form/textField';
 import CheckboxField from '../common/form/checkboxField';
-import { useAuth } from '../../hooks/useAuth.hook';
+import { getAuthError, login } from '../../store/reducers/users';
 
 const LoginForm = () => {
   const history = useHistory();
-  const { signIn } = useAuth();
+  const dispatch = useDispatch();
   const [data, setData] = useState({ email: '', password: '', remember: false });
   const [errors, setErrors] = useState({});
+  const loginError = useSelector(getAuthError());
 
   /* Here I use Validation with Yup library */
   const validationScheme = yup.object().shape({
@@ -48,15 +50,10 @@ const LoginForm = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    validate().then(async (isValid) => {
+    validate().then((isValid) => {
       if (!isValid) return;
-
-      try {
-        await signIn(data);
-        history.push(history.location.state?.from.pathname ? history.location.state.from.pathname : '/');
-      } catch (error) {
-        setErrors(error);
-      }
+      const redirect = history.location.state?.from.pathname ? history.location.state.from.pathname : '/';
+      dispatch(login(data, redirect));
     });
   };
 
@@ -67,6 +64,7 @@ const LoginForm = () => {
         <TextField label="Email" name="email" value={data.email} onChange={handleChange} error={errors.email} />
         <TextField label="Password" type="password" name="password" value={data.password} onChange={handleChange} error={errors.password} />
         <CheckboxField onChange={handleChange} name="remember" value={data.remember}>Remember account</CheckboxField>
+        {loginError && <p className="text-danger">{loginError.message}</p>}
         <button className="btn btn-primary w-100 mb-3" type="submit" disabled={Object.keys(errors).length !== 0}>Sign in</button>
         <div>
           I does not have an account.

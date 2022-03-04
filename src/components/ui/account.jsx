@@ -1,13 +1,20 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth.hook';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCurrentUserData, logout } from '../../store/reducers/users';
 
 const Account = () => {
-  const { currentUser, logOut } = useAuth();
+  const dispatch = useDispatch();
+  const currentUser = useSelector(getCurrentUserData());
   const [isOpened, setOpened] = useState(false);
 
   const toggleDropdown = () => setOpened((prev) => !prev);
 
+  const handleLogOut = () => {
+    dispatch(logout());
+  };
+
+  if (!currentUser) return 'loading...';
   return (
     <div className="dropdown" onClick={toggleDropdown}>
       <div className="btn dropdown-toggle d-flex align-items-center">
@@ -21,7 +28,7 @@ const Account = () => {
       </div>
       <div className={`dropdown-menu ${isOpened ? 'show' : ''}`}>
         <Link to={`/users/${currentUser._id}`} className="dropdown-item">Profile</Link>
-        <button type="button" className="dropdown-item" onClick={logOut}>Log out</button>
+        <button type="button" className="dropdown-item" onClick={handleLogOut}>Log out</button>
       </div>
     </div>
   );

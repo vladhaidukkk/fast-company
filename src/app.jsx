@@ -7,30 +7,24 @@ import Main from './pages/main';
 import Auth from './pages/auth';
 import Users from './pages/users';
 import Error404 from './pages/error404';
-import { ProfessionsProvider } from './hooks/useProfessions.hook';
-import { QualitiesProvider } from './hooks/useQualities.hook';
-import { AuthProvider } from './hooks/useAuth.hook';
 import ProtectedRoute from './components/common/protectedRoute';
+import AppLoader from './components/ui/hoc/appLoader';
 
 const App = () => (
   <>
-    <AuthProvider>
+    <AppLoader>
       <Navbar />
-      <ProfessionsProvider>
-        <QualitiesProvider>
-          <Switch>
-            <Route path="/" exact component={Main} />
-            <Route path="/auth" component={Auth} />
-            <ProtectedRoute path="/users/:userId?/:status?" component={Users} />
-            <Route path="/404" component={Error404} />
-            <Redirect to="/" path="/main" />
-            <Redirect to="/auth/login" path="/login" />
-            <Redirect to="/auth/register" path="/register" />
-            <Redirect to="/404" />
-          </Switch>
-        </QualitiesProvider>
-      </ProfessionsProvider>
-    </AuthProvider>
+      <Switch>
+        <Route path="/" exact component={Main} />
+        <Route path="/auth" component={Auth} />
+        <ProtectedRoute path="/users/:userId?/:status?" component={Users} />
+        <Route path="/404" component={Error404} />
+        <Redirect to="/" path="/main" />
+        <Redirect to="/auth/login" path="/login" />
+        <Redirect to="/auth/register" path="/register" />
+        <Redirect to="/404" />
+      </Switch>
+    </AppLoader>
     <ToastContainer />
   </>
 );

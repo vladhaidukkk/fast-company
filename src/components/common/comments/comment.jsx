@@ -1,17 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { formatDate } from '../../../utils/date';
-import { useUsers } from '../../../hooks/useUsers.hook';
-import { useAuth } from '../../../hooks/useAuth.hook';
+import { getCurrentUserId, getUserById } from '../../../store/reducers/users';
 
 const Comment = ({
   _id: id, userId: creatorId, content, createdAt, onDelete,
 }) => {
   const { userId: pageId } = useParams();
-  const { currentUser } = useAuth();
-  const { getUser } = useUsers();
-  const creator = getUser(creatorId);
+  const currentUserId = useSelector(getCurrentUserId());
+  const creator = useSelector(getUserById(creatorId));
 
   const handleDelete = () => {
     onDelete(id);
@@ -40,7 +39,7 @@ const Comment = ({
                         {formatDate(createdAt)}
                       </span>
                     </p>
-                    {(currentUser._id === creatorId || currentUser._id === pageId) && (
+                    {(currentUserId === creatorId || currentUserId === pageId) && (
                       <button type="button" className="btn btn-sm text-primary d-flex align-items-center" onClick={handleDelete}>
                         <i className="bi bi-x-lg" />
                       </button>

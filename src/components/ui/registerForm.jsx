@@ -1,29 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { validator } from '../../utils/validator';
 import TextField from '../common/form/textField';
 import SelectField from '../common/form/selectField';
 import RadioField from '../common/form/radioField';
 import MultiSelectField from '../common/form/multiSelectField';
 import CheckboxField from '../common/form/checkboxField';
-import { useProfessions } from '../../hooks/useProfessions.hook';
-import { useQualities } from '../../hooks/useQualities.hook';
-import { useAuth } from '../../hooks/useAuth.hook';
+import { getQualities } from '../../store/reducers/qualities';
+import { getProfessions } from '../../store/reducers/professions';
+import { getAuthError, register } from '../../store/reducers/users';
 
 const RegisterForm = () => {
-  const history = useHistory();
-
+  const dispatch = useDispatch();
   const [data, setData] = useState({
     name: '', email: '', password: '', profession: '', gender: 'male', qualities: [], acceptLicense: false,
   });
-  const { professions } = useProfessions();
+  const professions = useSelector(getProfessions());
   const professionsList = professions.map((profession) => (
     { value: profession._id, label: profession.name }
   ));
-  const { qualities } = useQualities();
+  const qualities = useSelector(getQualities());
   const qualitiesList = qualities.map((quality) => ({ value: quality._id, label: quality.name }));
   const [errors, setErrors] = useState({});
-  const { signUp } = useAuth();
+  const registerError = useSelector(getAuthError());
 
   const validationConfig = {
     name: {
@@ -65,28 +65,15 @@ const RegisterForm = () => {
     }));
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     const isValid = validate();
     if (!isValid) return;
     const newData = {
       ...data,
       qualities: data.qualities.map((q) => q.value),
-      completedMeetings: 0,
-      rate: 0,
-      avatarImg: `https://avatars.dicebear.com/api/avataaars/${(
-        Math.random() + 1
-      )
-        .toString(36)
-        .substring(7)}.svg`,
     };
-
-    try {
-      await signUp(newData);
-      history.push('/');
-    } catch (error) {
-      setErrors(error);
-    }
+    dispatch(register(newData));
   };
 
   return (
@@ -104,6 +91,7 @@ const RegisterForm = () => {
           &nbsp;
           <Link to="/auth/register/license">license</Link>
         </CheckboxField>
+        {registerError && <p className="text-danger">{registerError.message}</p>}
         <button className="btn btn-primary w-100 mb-3" type="submit" disabled={Object.keys(errors).length !== 0}>Sign up</button>
         <div>
           I have an account.
