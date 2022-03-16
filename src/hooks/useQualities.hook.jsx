@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { toast } from 'react-toastify';
-import qualityService from '../services/quality.service';
+import React, { useContext, useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import { toast } from "react-toastify";
+import qualityService from "../services/quality.service";
 
 const QualitiesContext = React.createContext();
 
@@ -47,5 +47,8 @@ export const QualitiesProvider = ({ children }) => {
 };
 
 QualitiesProvider.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
 };

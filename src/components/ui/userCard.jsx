@@ -1,8 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { getCurrentUserId } from '../../store/reducers/users';
+import React from "react";
+import PropTypes from "prop-types";
+import { useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { getCurrentUserId } from "../../store/reducers/users";
 
 const UserCard = ({ data }) => {
   const currentUserId = useSelector(getCurrentUserId());
@@ -12,7 +12,11 @@ const UserCard = ({ data }) => {
     <div className="card mb-3">
       <div className="card-body">
         {currentUserId === data._id && (
-          <button type="button" className="position-absolute top-0 end-0 btn btn-light btn-sm" onClick={() => push(`/users/${data._id}/edit`)}>
+          <button
+            type="button"
+            className="position-absolute top-0 end-0 btn btn-light btn-sm"
+            onClick={() => push(`/users/${data._id}/edit`)}
+          >
             <i className="bi bi-gear" />
           </button>
         )}

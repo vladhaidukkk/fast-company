@@ -1,18 +1,17 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Select from 'react-select';
+import React from "react";
+import PropTypes from "prop-types";
+import Select from "react-select";
 
-const MultiSelectField = ({
-  label, name, options, onChange, defaultValue,
-}) => {
-  const optionsArray = !Array.isArray(options) ? Object.values(options)
-    .map((option) => {
-      const values = Object.values(option);
-      return {
-        value: values[0],
-        label: values[1],
-      };
-    }) : options;
+const MultiSelectField = ({ label, name, options, onChange, defaultValue }) => {
+  const optionsArray = !Array.isArray(options)
+    ? Object.values(options).map((option) => {
+        const values = Object.values(option);
+        return {
+          value: values[0],
+          label: values[1],
+        };
+      })
+    : options;
 
   const handleChange = (value) => {
     onChange({ name, value });

@@ -1,15 +1,17 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import _ from 'lodash';
-import { Link } from 'react-router-dom';
+import React from "react";
+import PropTypes from "prop-types";
+import _ from "lodash";
+import { Link } from "react-router-dom";
 
 const TableBody = ({ data, columns }) => {
-  const renderUserLink = (item) => <Link to={`/users/${item._id}`}>{item.name}</Link>;
+  const renderUserLink = (item) => (
+    <Link to={`/users/${item._id}`}>{item.name}</Link>
+  );
 
   const renderContent = (item, column) => {
     const { component } = columns[column];
     if (component) {
-      if (typeof component === 'function') {
+      if (typeof component === "function") {
         return component(item);
       }
       return component;
@@ -21,10 +23,13 @@ const TableBody = ({ data, columns }) => {
     <tbody>
       {data.map((item) => (
         <tr key={item._id}>
-          {Object.keys(columns)
-            .map((column) => (
-              <td key={column}>{column === 'name' ? renderUserLink(item) : renderContent(item, column)}</td>
-            ))}
+          {Object.keys(columns).map((column) => (
+            <td key={column}>
+              {column === "name"
+                ? renderUserLink(item)
+                : renderContent(item, column)}
+            </td>
+          ))}
         </tr>
       ))}
     </tbody>

@@ -5,21 +5,23 @@ import localStorageService, { setTokens } from '../../services/localStorage.serv
 import history from '../../utils/history';
 import { getAuthErrorMessage } from '../../utils/getAuthErrorMessage';
 
-const initialState = localStorageService.getAccessToken() ? {
-  entities: null,
-  isLoading: true,
-  error: null,
-  auth: { userId: localStorageService.getUserId() },
-  isLoggedIn: true,
-  dataLoaded: false,
-} : {
-  entities: null,
-  isLoading: false,
-  error: null,
-  auth: null,
-  isLoggedIn: false,
-  dataLoaded: false,
-};
+const initialState = localStorageService.getAccessToken()
+  ? {
+    entities: null,
+    isLoading: true,
+    error: null,
+    auth: { userId: localStorageService.getUserId() },
+    isLoggedIn: true,
+    dataLoaded: false,
+  }
+  : {
+    entities: null,
+    isLoading: false,
+    error: null,
+    auth: null,
+    isLoggedIn: false,
+    dataLoaded: false,
+  };
 
 const usersSlice = createSlice({
   name: 'users',
@@ -68,8 +70,15 @@ const usersSlice = createSlice({
 });
 
 const {
-  received, requested, requestFailed, authenticated, authFailed, userCreated, loggedOut,
-  userUpdated, authRequested,
+  received,
+  requested,
+  requestFailed,
+  authenticated,
+  authFailed,
+  userCreated,
+  loggedOut,
+  userUpdated,
+  authRequested,
 } = usersSlice.actions;
 const createUserRequested = createAction('users/createUserRequested');
 const createUserFailed = createAction('users/createUserFailed');
@@ -103,17 +112,17 @@ export const register = (payload) => async (dispatch) => {
     const data = await authService.register(payload);
     setTokens(data);
     dispatch(authenticated({ userId: data.localId }));
-    dispatch(createUser({
-      ...payload,
-      _id: data.localId,
-      completedMeetings: 0,
-      rate: 0,
-      avatarImg: `https://avatars.dicebear.com/api/avataaars/${(
-        Math.random() + 1
-      )
-        .toString(36)
-        .substring(7)}.svg`,
-    }));
+    dispatch(
+      createUser({
+        ...payload,
+        _id: data.localId,
+        completedMeetings: 0,
+        rate: 0,
+        avatarImg: `https://avatars.dicebear.com/api/avataaars/${(Math.random() + 1)
+          .toString(36)
+          .substring(7)}.svg`,
+      }),
+    );
   } catch (err) {
     const { message, code } = err.response.data.error;
 
@@ -164,14 +173,14 @@ export const updateCurrentUser = (payload) => async (dispatch, getState) => {
 };
 
 export const getUsers = () => ({ users }) => users.entities;
-export const getUserById = (id) => ({ users }) => (users.entities
-  ? users.entities.find((user) => user._id === id) : null);
+export const getUserById = (id) => ({ users }) => (
+  users.entities ? users.entities.find((user) => user._id === id) : null);
 export const getIsLoggedIn = () => ({ users }) => users.isLoggedIn;
 export const getDataStatus = () => ({ users }) => users.dataLoaded;
 export const getCurrentUserId = () => ({ users }) => users.auth.userId;
 export const getUsersLoadingStatus = () => ({ users }) => users.isLoading;
-export const getCurrentUserData = () => ({ users }) => (users.entities
-  ? users.entities.find((user) => user._id === users.auth.userId) : null);
+export const getCurrentUserData = () => ({ users }) => (
+  users.entities ? users.entities.find((user) => user._id === users.auth.userId) : null);
 export const getAuthError = () => (state) => state.users.error;
 
 const usersReducer = usersSlice.reducer;

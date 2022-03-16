@@ -1,7 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
-import { getProfessionById, getProfessionsLoading } from '../../store/reducers/professions';
+import React from "react";
+import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
+import {
+  getProfessionById,
+  getProfessionsLoading,
+} from "../../store/reducers/professions";
 
 const Profession = ({ id }) => {
   const isLoading = useSelector(getProfessionsLoading());

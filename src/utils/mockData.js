@@ -57,7 +57,10 @@ const useMockData = () => {
   };
 
   return {
-    error, initialize, status, progress,
+    error,
+    initialize,
+    status,
+    progress,
   };
 };
 

@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect } from "react";
+import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
 import {
   fetchQualities,
   getQualitiesByIds,
   getQualitiesLoading,
-} from '../../store/reducers/qualities';
+} from "../../store/reducers/qualities";
 
 const Qualities = ({ items }) => {
   const dispatch = useDispatch();
@@ -23,7 +23,7 @@ const Qualities = ({ items }) => {
       </span>
     ));
   }
-  return 'loading...';
+  return "loading...";
 };
 
 Qualities.defaultProps = {

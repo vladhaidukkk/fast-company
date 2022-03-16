@@ -1,10 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
 const TableHeader = ({ columns, onSort, sortedBy }) => {
   const renderContent = (column) => {
     if (sortedBy.iter === columns[column].path) {
-      if (sortedBy.order === 'asc') {
+      if (sortedBy.order === "asc") {
         return (
           <>
             <span>{columns[column].name}</span>
@@ -24,26 +24,29 @@ const TableHeader = ({ columns, onSort, sortedBy }) => {
 
   const handleSort = (name) => {
     if (sortedBy.iter === name) {
-      onSort({ ...sortedBy, order: sortedBy.order === 'asc' ? 'desc' : 'asc' });
+      onSort({ ...sortedBy, order: sortedBy.order === "asc" ? "desc" : "asc" });
     } else {
-      onSort({ iter: name, order: 'asc' });
+      onSort({ iter: name, order: "asc" });
     }
   };
 
   return (
     <thead>
       <tr>
-        {Object.keys(columns)
-          .map((column) => (
-            <th
-              key={column}
-              scope="col"
-              onClick={columns[column].path ? () => handleSort(columns[column].path) : undefined}
-              role={columns[column].path && 'button'}
-            >
-              {renderContent(column)}
-            </th>
-          ))}
+        {Object.keys(columns).map((column) => (
+          <th
+            key={column}
+            scope="col"
+            onClick={
+              columns[column].path
+                ? () => handleSort(columns[column].path)
+                : undefined
+            }
+            role={columns[column].path && "button"}
+          >
+            {renderContent(column)}
+          </th>
+        ))}
       </tr>
     </thead>
   );

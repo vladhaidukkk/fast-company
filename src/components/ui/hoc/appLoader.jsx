@@ -1,9 +1,13 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
-import { fetchUsers, getIsLoggedIn, getUsersLoadingStatus } from '../../../store/reducers/users';
-import { fetchQualities } from '../../../store/reducers/qualities';
-import { fetchProfessions } from '../../../store/reducers/professions';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import PropTypes from "prop-types";
+import {
+  fetchUsers,
+  getIsLoggedIn,
+  getUsersLoadingStatus,
+} from "../../../store/reducers/users";
+import { fetchQualities } from "../../../store/reducers/qualities";
+import { fetchProfessions } from "../../../store/reducers/professions";
 
 const AppLoader = ({ children }) => {
   const dispatch = useDispatch();
@@ -17,13 +21,14 @@ const AppLoader = ({ children }) => {
   }, [isLoggedIn]);
 
   if (isUsersLoading) return <h1>Loading</h1>;
-  return (
-    children
-  );
+  return children;
 };
 
 AppLoader.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
 };
 
 export default AppLoader;

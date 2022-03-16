@@ -1,15 +1,21 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
 const GroupList = ({
-  items, onItemSelect, uniqueProp, contentProp, selectedItem,
+  items,
+  onItemSelect,
+  uniqueProp,
+  contentProp,
+  selectedItem,
 }) => (
   <div className="list-group">
     {Object.values(items).map((item) => (
       <button
         key={item[uniqueProp]}
         type="button"
-        className={`list-group-item list-group-item-action${item._id === selectedItem ? ' active' : ''}`}
+        className={`list-group-item list-group-item-action${
+          item._id === selectedItem ? " active" : ""
+        }`}
         onClick={() => onItemSelect(item)}
       >
         {item[contentProp]}
@@ -19,8 +25,8 @@ const GroupList = ({
 );
 
 GroupList.defaultProps = {
-  uniqueProp: '_id',
-  contentProp: 'name',
+  uniqueProp: "_id",
+  contentProp: "name",
   selectedItem: undefined,
 };
 

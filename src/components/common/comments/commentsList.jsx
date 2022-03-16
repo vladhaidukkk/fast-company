@@ -1,20 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import _ from 'lodash';
-import Comment from './comment';
+import React from "react";
+import PropTypes from "prop-types";
+import _ from "lodash";
+import Comment from "./comment";
 
 const CommentsList = ({ data, onDelete }) => {
-  const orderedComments = _.orderBy(data, 'createdAt', 'desc');
+  const orderedComments = _.orderBy(data, "createdAt", "desc");
 
-  return (
-    orderedComments.map((comment) => (
-      <Comment
-        key={comment._id}
-        {...comment}
-        onDelete={onDelete}
-      />
-    ))
-  );
+  return orderedComments.map((comment) => (
+    <Comment key={comment._id} {...comment} onDelete={onDelete} />
+  ));
 };
 
 CommentsList.defaultProps = {

@@ -1,14 +1,15 @@
-import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import CommentsList from '../common/comments/commentsList';
-import CommentForm from '../common/comments/commentForm';
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import CommentsList from "../common/comments/commentsList";
+import CommentForm from "../common/comments/commentForm";
 import {
-  createComment, deleteComment,
+  createComment,
+  deleteComment,
   fetchComments,
   getComments,
   getCommentsLoading,
-} from '../../store/reducers/comments';
+} from "../../store/reducers/comments";
 
 const Comments = () => {
   const { userId } = useParams();
@@ -31,7 +32,7 @@ const Comments = () => {
   return (
     <>
       <div className="card mb-2">
-        {' '}
+        {" "}
         <div className="card-body ">
           <CommentForm onSubmit={handleSubmit} />
         </div>
@@ -40,7 +41,11 @@ const Comments = () => {
         <div className="card-body ">
           <h2>Comments</h2>
           <hr />
-          {!isLoading ? <CommentsList data={comments} onDelete={handleCommentDelete} /> : 'Loading comments...'}
+          {!isLoading ? (
+            <CommentsList data={comments} onDelete={handleCommentDelete} />
+          ) : (
+            "Loading comments..."
+          )}
         </div>
       </div>
     </>

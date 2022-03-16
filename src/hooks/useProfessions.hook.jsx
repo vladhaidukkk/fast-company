@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { toast } from 'react-toastify';
-import professionService from '../services/profession.service';
+import React, { useContext, useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import { toast } from "react-toastify";
+import professionService from "../services/profession.service";
 
 const ProfessionsContext = React.createContext();
 
@@ -37,15 +37,21 @@ export const ProfessionsProvider = ({ children }) => {
     }
   }, [error]);
 
-  const getProfession = (id) => professions.find((profession) => profession._id === id);
+  const getProfession = (id) =>
+    professions.find((profession) => profession._id === id);
 
   return (
-    <ProfessionsContext.Provider value={{ isLoading, professions, getProfession }}>
+    <ProfessionsContext.Provider
+      value={{ isLoading, professions, getProfession }}
+    >
       {children}
     </ProfessionsContext.Provider>
   );
 };
 
 ProfessionsProvider.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
 };

@@ -1,14 +1,14 @@
-import React from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import Navbar from './components/ui/navbar';
-import Main from './pages/main';
-import Auth from './pages/auth';
-import Users from './pages/users';
-import Error404 from './pages/error404';
-import ProtectedRoute from './components/common/protectedRoute';
-import AppLoader from './components/ui/hoc/appLoader';
+import React from "react";
+import { Redirect, Route, Switch } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Navbar from "./components/ui/navbar";
+import Main from "./pages/main";
+import Auth from "./pages/auth";
+import Users from "./pages/users";
+import Error404 from "./pages/error404";
+import ProtectedRoute from "./components/common/protectedRoute";
+import AppLoader from "./components/ui/hoc/appLoader";
 
 const App = () => (
   <>

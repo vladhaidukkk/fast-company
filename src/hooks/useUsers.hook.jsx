@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { toast } from 'react-toastify';
-import userService from '../services/user.service';
+import React, { useContext, useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import { toast } from "react-toastify";
+import userService from "../services/user.service";
 
 const UsersContext = React.createContext();
 
@@ -46,11 +46,20 @@ export const UsersProvider = ({ children }) => {
 
   return (
     <UsersContext.Provider value={{ users, getUser, updateUser }}>
-      {!isLoading ? children : <h2><span className="badge bg-primary m-2">Users loading...</span></h2>}
+      {!isLoading ? (
+        children
+      ) : (
+        <h2>
+          <span className="badge bg-primary m-2">Users loading...</span>
+        </h2>
+      )}
     </UsersContext.Provider>
   );
 };
 
 UsersProvider.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
 };

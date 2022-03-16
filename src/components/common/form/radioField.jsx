@@ -1,10 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { capitalize } from 'lodash';
+import React from "react";
+import PropTypes from "prop-types";
+import { capitalize } from "lodash";
 
-const RadioField = ({
-  label, name, value, onChange, options,
-}) => {
+const RadioField = ({ label, name, value, onChange, options }) => {
   const handleChange = ({ target }) => onChange({ name, value: target.value });
 
   return (
@@ -22,7 +20,9 @@ const RadioField = ({
               onChange={handleChange}
               checked={value === option}
             />
-            <label className="form-check-label" htmlFor={option}>{capitalize(option)}</label>
+            <label className="form-check-label" htmlFor={option}>
+              {capitalize(option)}
+            </label>
           </div>
         ))}
       </div>

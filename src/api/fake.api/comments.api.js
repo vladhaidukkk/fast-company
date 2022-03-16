@@ -49,7 +49,10 @@ const post = (data) => new Promise((resolve) => {
       createdAt: Date.now().toString(),
       id: Math.random().toString(36).substr(2, 9),
     };
-    localStorage.setItem('comments', JSON.stringify([...comments, newComment]));
+    localStorage.setItem(
+      'comments',
+      JSON.stringify([...comments, newComment]),
+    );
     resolve(newComment);
   }, 200);
 });

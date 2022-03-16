@@ -1,7 +1,7 @@
-import React from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
-import LoginForm from '../components/ui/loginForm';
-import RegisterForm from '../components/ui/registerForm';
+import React from "react";
+import { Switch, Route, Redirect } from "react-router-dom";
+import LoginForm from "../components/ui/loginForm";
+import RegisterForm from "../components/ui/registerForm";
 
 const Auth = () => (
   <div className="container">

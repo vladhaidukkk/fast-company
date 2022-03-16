@@ -1,37 +1,45 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from "react";
+import PropTypes from "prop-types";
 
-const TextField = ({
-  label, type, name, value, onChange, error,
-}) => {
-  const isPassword = type === 'password';
+const TextField = ({ label, type, name, value, onChange, error }) => {
+  const isPassword = type === "password";
   const [passwordVisibility, setPasswordVisibility] = useState(false);
 
   const toggleTextVisibility = () => {
     setPasswordVisibility(!passwordVisibility);
   };
 
-  const getInputClasses = () => `form-control ${error ? 'is-invalid' : ''}`;
+  const getInputClasses = () => `form-control ${error ? "is-invalid" : ""}`;
 
   const handleChange = ({ target }) => onChange({ name, value: target.value });
 
   return (
     <div className="col mb-4">
-      <label htmlFor={name} className="form-label">{label}</label>
+      <label htmlFor={name} className="form-label">
+        {label}
+      </label>
       <div className="input-group has-validation">
         <input
           id={name}
-          type={passwordVisibility ? 'text' : type}
+          type={passwordVisibility ? "text" : type}
           value={value}
           name={name}
           onChange={handleChange}
           className={getInputClasses()}
         />
-        { isPassword && (
-          <button className="btn btn-outline-secondary" type="button" onClick={toggleTextVisibility}>
-            { passwordVisibility ? <i className="bi bi-eye-slash" /> : <i className="bi bi-eye" />}
+        {isPassword && (
+          <button
+            className="btn btn-outline-secondary"
+            type="button"
+            onClick={toggleTextVisibility}
+          >
+            {passwordVisibility ? (
+              <i className="bi bi-eye-slash" />
+            ) : (
+              <i className="bi bi-eye" />
+            )}
           </button>
-        ) }
+        )}
         {error && <div className="invalid-feedback">{error}</div>}
       </div>
     </div>
@@ -39,8 +47,8 @@ const TextField = ({
 };
 
 TextField.defaultProps = {
-  type: 'text',
-  error: '',
+  type: "text",
+  error: "",
 };
 
 TextField.propTypes = {

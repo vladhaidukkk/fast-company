@@ -1,10 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { toast } from 'react-toastify';
-import { useHistory } from 'react-router-dom';
-import userService from '../services/user.service';
-import localStorageService, { setTokens } from '../services/localStorage.service';
-import httpAuth from '../services/auth.service';
+import React, { useContext, useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
+import userService from "../services/user.service";
+import localStorageService, {
+  setTokens,
+} from "../services/localStorage.service";
+import httpAuth from "../services/auth.service";
 
 const AuthContext = React.createContext();
 
@@ -50,9 +52,9 @@ export const AuthProvider = ({ children }) => {
       const { message, code } = error.response.data.error;
 
       if (code === 400) {
-        if (message === 'EMAIL_EXISTS') {
+        if (message === "EMAIL_EXISTS") {
           const errorObject = {
-            email: 'This email has already been registered',
+            email: "This email has already been registered",
           };
           throw errorObject;
         }
@@ -70,10 +72,10 @@ export const AuthProvider = ({ children }) => {
 
       if (code === 400) {
         const errorObject = {};
-        if (message === 'EMAIL_NOT_FOUND') {
-          errorObject.email = 'Account with this email is not registered';
-        } else if (message === 'INVALID_PASSWORD') {
-          errorObject.password = 'Password is not correct';
+        if (message === "EMAIL_NOT_FOUND") {
+          errorObject.email = "Account with this email is not registered";
+        } else if (message === "INVALID_PASSWORD") {
+          errorObject.password = "Password is not correct";
         }
         throw errorObject;
       }
@@ -83,7 +85,7 @@ export const AuthProvider = ({ children }) => {
   const logOut = () => {
     localStorageService.removeTokens();
     setUser(null);
-    history.push('/');
+    history.push("/");
   };
 
   useEffect(() => {
@@ -111,15 +113,23 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{
-      signUp, signIn, currentUser, logOut, updateCurrentUser,
-    }}
+    <AuthContext.Provider
+      value={{
+        signUp,
+        signIn,
+        currentUser,
+        logOut,
+        updateCurrentUser,
+      }}
     >
-      {!isLoading ? children : 'loading...'}
+      {!isLoading ? children : "loading..."}
     </AuthContext.Provider>
   );
 };
 
 AuthProvider.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
 };

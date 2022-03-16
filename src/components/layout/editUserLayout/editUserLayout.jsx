@@ -1,14 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { validator } from '../../../utils/validator';
-import TextField from '../../common/form/textField';
-import SelectField from '../../common/form/selectField';
-import RadioField from '../../common/form/radioField';
-import MultiSelectField from '../../common/form/multiSelectField';
-import { getQualities, getQualitiesLoading } from '../../../store/reducers/qualities';
-import { getProfessions } from '../../../store/reducers/professions';
-import { getCurrentUserData, updateCurrentUser } from '../../../store/reducers/users';
+import React, { useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { validator } from "../../../utils/validator";
+import TextField from "../../common/form/textField";
+import SelectField from "../../common/form/selectField";
+import RadioField from "../../common/form/radioField";
+import MultiSelectField from "../../common/form/multiSelectField";
+import {
+  getQualities,
+  getQualitiesLoading,
+} from "../../../store/reducers/qualities";
+import { getProfessions } from "../../../store/reducers/professions";
+import {
+  getCurrentUserData,
+  updateCurrentUser,
+} from "../../../store/reducers/users";
 
 const EditUserLayout = () => {
   const history = useHistory();
@@ -24,10 +30,12 @@ const EditUserLayout = () => {
     email: data.email,
     profession: data.profession,
     gender: data.gender,
-    qualities: !qualitiesLoading ? data.qualities.map((qualId) => ({
-      label: qualities.find((quality) => quality._id === qualId).name,
-      value: qualId,
-    })) : [],
+    qualities: !qualitiesLoading
+      ? data.qualities.map((qualId) => ({
+          label: qualities.find((quality) => quality._id === qualId).name,
+          value: qualId,
+        }))
+      : [],
   });
 
   const [data, setData] = useState(convertToUse(currentUser));
@@ -49,14 +57,18 @@ const EditUserLayout = () => {
 
   const validationConfig = {
     name: {
-      isRequired: (dataItem) => (dataItem.trim() === '' ? 'Name must be specified' : undefined),
+      isRequired: (dataItem) =>
+        dataItem.trim() === "" ? "Name must be specified" : undefined,
     },
     email: {
-      isRequired: (dataItem) => (dataItem.trim() === '' ? 'Email must be specified' : undefined),
-      isEmail: (dataItem) => (!/^\S+@\S+\.\S+$/.test(dataItem) ? 'Email input is invalid' : undefined),
+      isRequired: (dataItem) =>
+        dataItem.trim() === "" ? "Email must be specified" : undefined,
+      isEmail: (dataItem) =>
+        !/^\S+@\S+\.\S+$/.test(dataItem) ? "Email input is invalid" : undefined,
     },
     profession: {
-      isRequired: (dataItem) => (dataItem.trim() === '' ? 'Profession must be specified' : undefined),
+      isRequired: (dataItem) =>
+        dataItem.trim() === "" ? "Profession must be specified" : undefined,
     },
   };
 
@@ -123,13 +135,16 @@ const EditUserLayout = () => {
           label="Gender"
           onChange={handleChange}
           name="gender"
-          options={['male', 'female', 'other']}
+          options={["male", "female", "other"]}
           value={data.gender}
         />
         <MultiSelectField
           label="Qualities"
           name="qualities"
-          options={qualities.map((quality) => ({ label: quality.name, value: quality._id }))}
+          options={qualities.map((quality) => ({
+            label: quality.name,
+            value: quality._id,
+          }))}
           onChange={handleChange}
           defaultValue={data.qualities}
         />
@@ -155,7 +170,13 @@ const EditUserLayout = () => {
     <div className="container">
       <div className="row mt-4">
         <div className="col-md-6 offset-md-3 shadow p-4 rounded">
-          { data ? renderForm() : <h2><span className="badge bg-primary m-2">Loading...</span></h2> }
+          {data ? (
+            renderForm()
+          ) : (
+            <h2>
+              <span className="badge bg-primary m-2">Loading...</span>
+            </h2>
+          )}
         </div>
       </div>
     </div>

@@ -1,10 +1,8 @@
-import React from 'react';
-import useMockData from '../utils/mockData';
+import React from "react";
+import useMockData from "../utils/mockData";
 
 const Main = () => {
-  const {
-    initialize, status, error, progress,
-  } = useMockData();
+  const { initialize, status, error, progress } = useMockData();
 
   const handleClick = () => {
     initialize();
@@ -20,8 +18,7 @@ const Main = () => {
         </li>
         <li>
           Progress:&nbsp;
-          {progress}
-          %
+          {progress}%
         </li>
         {error && (
           <li>
@@ -30,7 +27,9 @@ const Main = () => {
           </li>
         )}
       </ul>
-      <button type="button" className="btn btn-primary" onClick={handleClick}>initialize data</button>
+      <button type="button" className="btn btn-primary" onClick={handleClick}>
+        initialize data
+      </button>
     </div>
   );
 };

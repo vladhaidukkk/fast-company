@@ -25,7 +25,9 @@ const commentsSlice = createSlice({
       state.entities.push(action.payload);
     },
     commentDeleted(state, action) {
-      state.entities = state.entities.filter((comment) => comment._id !== action.payload.id);
+      state.entities = state.entities.filter(
+        (comment) => comment._id !== action.payload.id,
+      );
     },
   },
 });

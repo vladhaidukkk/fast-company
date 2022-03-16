@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import * as yup from 'yup';
-import PropTypes from 'prop-types';
-import TextareaField from '../form/textareaField';
+import React, { useState } from "react";
+import * as yup from "yup";
+import PropTypes from "prop-types";
+import TextareaField from "../form/textareaField";
 
-const initialData = { content: '' };
+const initialData = { content: "" };
 
 const CommentForm = ({ onSubmit }) => {
   const [data, setData] = useState(initialData);
@@ -11,7 +11,7 @@ const CommentForm = ({ onSubmit }) => {
 
   /* Here I use Validation with Yup library */
   const validationScheme = yup.object().shape({
-    content: yup.string().required('Message can\'t be empty'),
+    content: yup.string().required("Message can't be empty"),
   });
 
   const validate = async () => {
@@ -47,9 +47,17 @@ const CommentForm = ({ onSubmit }) => {
       <div className="card-body ">
         <h3 className="mb-4">New comment</h3>
         <form onSubmit={handleSubmit}>
-          <TextareaField label="Message" onChange={handleChange} name="content" value={data.content} error={errors.content} />
+          <TextareaField
+            label="Message"
+            onChange={handleChange}
+            name="content"
+            value={data.content}
+            error={errors.content}
+          />
           <div className="d-flex justify-content-end">
-            <button className="btn btn-primary" type="submit">Publish</button>
+            <button className="btn btn-primary" type="submit">
+              Publish
+            </button>
           </div>
         </form>
       </div>

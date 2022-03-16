@@ -1,16 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-const TextField = ({
-  label, name, value, onChange, error,
-}) => {
-  const getTextareaClasses = () => `form-control ${error ? 'is-invalid' : ''}`;
+const TextField = ({ label, name, value, onChange, error }) => {
+  const getTextareaClasses = () => `form-control ${error ? "is-invalid" : ""}`;
 
   const handleChange = ({ target }) => onChange({ name, value: target.value });
 
   return (
     <div className="col mb-4">
-      <label htmlFor={name} className="form-label">{label}</label>
+      <label htmlFor={name} className="form-label">
+        {label}
+      </label>
       <div className="input-group has-validation">
         <textarea
           id={name}
@@ -27,7 +27,7 @@ const TextField = ({
 };
 
 TextField.defaultProps = {
-  error: '',
+  error: "",
 };
 
 TextField.propTypes = {

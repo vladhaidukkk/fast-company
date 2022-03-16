@@ -54,5 +54,7 @@ export const formatDate = (milliseconds) => {
   if (diffInYears < 1) {
     return `${date.getDate()} ${formatMonth(date.getMonth())}`;
   }
-  return `${date.getDate()} ${formatMonth(date.getMonth())} ${date.getFullYear()} Year`;
+  return `${date.getDate()} ${formatMonth(
+    date.getMonth(),
+  )} ${date.getFullYear()} Year`;
 };
