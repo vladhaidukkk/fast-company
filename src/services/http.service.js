@@ -17,8 +17,8 @@ http.interceptors.request.use(
       const expiresIn = localStorageService.getTokenExpiresDate();
 
       if (refreshToken && expiresIn < Date.now()) {
-        const key = process.env.REACT_APP_FIREBASE_KEY;
-        // const key = 'AIzaSyDx2b-juTev7UOyt835ey7Jt3egvcDmUac';
+        // const key = process.env.REACT_APP_FIREBASE_KEY;
+        const key = 'AIzaSyDx2b-juTev7UOyt835ey7Jt3egvcDmUac';
         const { data } = await axios.post(
           `https://securetoken.googleapis.com/v1/token?key=${key}`,
           {
