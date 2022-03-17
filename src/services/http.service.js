@@ -11,9 +11,7 @@ http.interceptors.request.use(
   async (config) => {
     if (configFile.isFirebase) {
       const containSlash = /\/$/gi.test(config.url);
-      config.url = `${
-        containSlash ? config.url.slice(0, -1) : config.url
-      }.json`;
+      config.url = `${containSlash ? config.url.slice(0, -1) : config.url}.json`;
 
       const refreshToken = localStorageService.getRefreshToken();
       const expiresIn = localStorageService.getTokenExpiresDate();
@@ -26,7 +24,7 @@ http.interceptors.request.use(
           {
             grant_type: 'refresh_token',
             refresh_token: refreshToken,
-          },
+          }
         );
         localStorageService.setTokens({
           idToken: data.id_token,
@@ -43,7 +41,7 @@ http.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error),
+  (error) => Promise.reject(error)
 );
 
 http.interceptors.response.use(
@@ -56,16 +54,15 @@ http.interceptors.response.use(
     return res;
   },
   (error) => {
-    const isExpected = error.response
-      && error.response.status >= 400
-      && error.response.status < 500;
+    const isExpected =
+      error.response && error.response.status >= 400 && error.response.status < 500;
 
     if (!isExpected) {
       toast('Something went wrong. Try later');
     }
 
     return Promise.reject(error);
-  },
+  }
 );
 
 const httpService = {

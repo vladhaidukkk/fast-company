@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import { nanoid } from "nanoid";
-import { toast } from "react-toastify";
-import { useParams } from "react-router-dom";
-import { useAuth } from "./useAuth.hook";
-import commentService from "../services/comment.service";
+import React, { useContext, useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { nanoid } from 'nanoid';
+import { toast } from 'react-toastify';
+import { useParams } from 'react-router-dom';
+import { useAuth } from './useAuth.hook';
+import commentService from '../services/comment.service';
 
 const CommentsContext = React.createContext();
 
@@ -82,10 +82,7 @@ const CommentsProvider = ({ children }) => {
 };
 
 CommentsProvider.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]).isRequired,
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 };
 
 export default useComments;

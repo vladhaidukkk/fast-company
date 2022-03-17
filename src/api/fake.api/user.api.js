@@ -140,30 +140,33 @@ if (!localStorage.getItem('users')) {
   localStorage.setItem('users', JSON.stringify(users));
 }
 
-const getAll = () => new Promise((resolve) => {
-  setTimeout(() => {
-    resolve(JSON.parse(localStorage.getItem('users')));
-  }, 500);
-});
+const getAll = () =>
+  new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(JSON.parse(localStorage.getItem('users')));
+    }, 500);
+  });
 
-const getById = (id) => new Promise((resolve, reject) => {
-  setTimeout(() => {
+const getById = (id) =>
+  new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const users = JSON.parse(localStorage.getItem('users'));
+      const user = users.find((user) => user.id === id);
+      if (user) {
+        resolve(user);
+      }
+      reject(new Error("UserLayout wasn't found"));
+    }, 500);
+  });
+
+const patch = (id, data) =>
+  new Promise((resolve) => {
     const users = JSON.parse(localStorage.getItem('users'));
-    const user = users.find((user) => user.id === id);
-    if (user) {
-      resolve(user);
-    }
-    reject(new Error("UserLayout wasn't found"));
-  }, 500);
-});
-
-const patch = (id, data) => new Promise((resolve) => {
-  const users = JSON.parse(localStorage.getItem('users'));
-  const userIndex = users.findIndex((user) => user.id === id);
-  users[userIndex] = { ...users[userIndex], ...data };
-  localStorage.setItem('users', JSON.stringify(users));
-  resolve(users[userIndex]);
-});
+    const userIndex = users.findIndex((user) => user.id === id);
+    users[userIndex] = { ...users[userIndex], ...data };
+    localStorage.setItem('users', JSON.stringify(users));
+    resolve(users[userIndex]);
+  });
 
 export default {
   getAll,

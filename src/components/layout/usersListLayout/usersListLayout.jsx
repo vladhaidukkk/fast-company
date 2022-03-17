@@ -1,17 +1,14 @@
-import React, { useEffect, useState } from "react";
-import _ from "lodash";
-import { useSelector } from "react-redux";
-import { paginate } from "../../../utils/paginate";
-import GroupList from "../../common/groupList";
-import Status from "../../ui/status";
-import UsersTable from "../../ui/usersTable";
-import Pagination from "../../common/pagination";
-import Search from "../../common/search";
-import {
-  getProfessions,
-  getProfessionsLoading,
-} from "../../../store/reducers/professions";
-import { getCurrentUserId, getUsers } from "../../../store/reducers/users";
+import React, { useEffect, useState } from 'react';
+import _ from 'lodash';
+import { useSelector } from 'react-redux';
+import { paginate } from '../../../utils/paginate';
+import GroupList from '../../common/groupList';
+import Status from '../../ui/status';
+import UsersTable from '../../ui/usersTable';
+import Pagination from '../../common/pagination';
+import Search from '../../common/search';
+import { getProfessions, getProfessionsLoading } from '../../../store/reducers/professions';
+import { getCurrentUserId, getUsers } from '../../../store/reducers/users';
 
 const UsersListLayout = () => {
   const USERS_ON_PAGE = 6;
@@ -20,18 +17,16 @@ const UsersListLayout = () => {
   const users = useSelector(getUsers());
   const professions = useSelector(getProfessions());
   const isLoadingProfessions = useSelector(getProfessionsLoading());
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState('');
   const [selectedProf, setSelectedProf] = useState();
-  const [sortBy, setSortBy] = useState({ iter: "name", order: "asc" });
+  const [sortBy, setSortBy] = useState({ iter: 'name', order: 'asc' });
   const [currentIndex, setCurrentIndex] = useState(1);
 
   useEffect(() => setCurrentIndex(1), [selectedProf]);
 
   let filteredUsers;
   if (searchValue) {
-    filteredUsers = users.filter((user) =>
-      new RegExp(searchValue, "i").test(user.name)
-    );
+    filteredUsers = users.filter((user) => new RegExp(searchValue, 'i').test(user.name));
   } else if (selectedProf) {
     filteredUsers = users.filter((user) => user.profession === selectedProf);
   } else {
@@ -64,7 +59,7 @@ const UsersListLayout = () => {
 
   const handleProfessionSelect = (prof) => {
     setSelectedProf(prof._id);
-    setSearchValue("");
+    setSearchValue('');
   };
 
   const clearFilter = () => setSelectedProf();
@@ -82,22 +77,14 @@ const UsersListLayout = () => {
             onItemSelect={handleProfessionSelect}
             selectedItem={selectedProf}
           />
-          <button
-            type="button"
-            className="btn btn-secondary mt-2"
-            onClick={clearFilter}
-          >
+          <button type="button" className="btn btn-secondary mt-2" onClick={clearFilter}>
             Очистить фильтр
           </button>
         </div>
       )}
       <div className="p-2 d-flex flex-column w-100">
         <Status usersAmount={usersAmount} />
-        <Search
-          placeholder="Search user..."
-          value={searchValue}
-          onChange={handleSearch}
-        />
+        <Search placeholder="Search user..." value={searchValue} onChange={handleSearch} />
         {usersAmount > 0 && (
           <UsersTable
             users={usersCrop}

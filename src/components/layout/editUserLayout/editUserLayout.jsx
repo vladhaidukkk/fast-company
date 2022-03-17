@@ -1,20 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { validator } from "../../../utils/validator";
-import TextField from "../../common/form/textField";
-import SelectField from "../../common/form/selectField";
-import RadioField from "../../common/form/radioField";
-import MultiSelectField from "../../common/form/multiSelectField";
-import {
-  getQualities,
-  getQualitiesLoading,
-} from "../../../store/reducers/qualities";
-import { getProfessions } from "../../../store/reducers/professions";
-import {
-  getCurrentUserData,
-  updateCurrentUser,
-} from "../../../store/reducers/users";
+import React, { useEffect, useState } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { validator } from '../../../utils/validator';
+import TextField from '../../common/form/textField';
+import SelectField from '../../common/form/selectField';
+import RadioField from '../../common/form/radioField';
+import MultiSelectField from '../../common/form/multiSelectField';
+import { getQualities, getQualitiesLoading } from '../../../store/reducers/qualities';
+import { getProfessions } from '../../../store/reducers/professions';
+import { getCurrentUserData, updateCurrentUser } from '../../../store/reducers/users';
 
 const EditUserLayout = () => {
   const history = useHistory();
@@ -57,18 +51,16 @@ const EditUserLayout = () => {
 
   const validationConfig = {
     name: {
-      isRequired: (dataItem) =>
-        dataItem.trim() === "" ? "Name must be specified" : undefined,
+      isRequired: (dataItem) => (dataItem.trim() === '' ? 'Name must be specified' : undefined),
     },
     email: {
-      isRequired: (dataItem) =>
-        dataItem.trim() === "" ? "Email must be specified" : undefined,
+      isRequired: (dataItem) => (dataItem.trim() === '' ? 'Email must be specified' : undefined),
       isEmail: (dataItem) =>
-        !/^\S+@\S+\.\S+$/.test(dataItem) ? "Email input is invalid" : undefined,
+        !/^\S+@\S+\.\S+$/.test(dataItem) ? 'Email input is invalid' : undefined,
     },
     profession: {
       isRequired: (dataItem) =>
-        dataItem.trim() === "" ? "Profession must be specified" : undefined,
+        dataItem.trim() === '' ? 'Profession must be specified' : undefined,
     },
   };
 
@@ -135,7 +127,7 @@ const EditUserLayout = () => {
           label="Gender"
           onChange={handleChange}
           name="gender"
-          options={["male", "female", "other"]}
+          options={['male', 'female', 'other']}
           value={data.gender}
         />
         <MultiSelectField
@@ -155,11 +147,7 @@ const EditUserLayout = () => {
         >
           Confirm
         </button>
-        <button
-          className="btn btn-secondary w-100"
-          type="button"
-          onClick={handleCancel}
-        >
+        <button className="btn btn-secondary w-100" type="button" onClick={handleCancel}>
           Cancel
         </button>
       </form>

@@ -1,8 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { getCurrentUserId } from "../../store/reducers/users";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { getCurrentUserId } from '../../store/reducers/users';
 
 const UserCard = ({ data }) => {
   const currentUserId = useSelector(getCurrentUserId());
@@ -21,12 +21,7 @@ const UserCard = ({ data }) => {
           </button>
         )}
         <div className="d-flex flex-column align-items-center text-center position-relative">
-          <img
-            src={data.avatarImg}
-            className="rounded-circle"
-            width="150"
-            alt="User avatar"
-          />
+          <img src={data.avatarImg} className="rounded-circle" width="150" alt="User avatar" />
           <div className="mt-3">
             <h4>{data.name}</h4>
             <p className="text-secondary mb-1">{data.profession.name}</p>

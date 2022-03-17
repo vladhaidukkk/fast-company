@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { validator } from "../../utils/validator";
-import TextField from "../common/form/textField";
-import SelectField from "../common/form/selectField";
-import RadioField from "../common/form/radioField";
-import MultiSelectField from "../common/form/multiSelectField";
-import CheckboxField from "../common/form/checkboxField";
-import { getQualities } from "../../store/reducers/qualities";
-import { getProfessions } from "../../store/reducers/professions";
-import { getAuthError, register } from "../../store/reducers/users";
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { validator } from '../../utils/validator';
+import TextField from '../common/form/textField';
+import SelectField from '../common/form/selectField';
+import RadioField from '../common/form/radioField';
+import MultiSelectField from '../common/form/multiSelectField';
+import CheckboxField from '../common/form/checkboxField';
+import { getQualities } from '../../store/reducers/qualities';
+import { getProfessions } from '../../store/reducers/professions';
+import { getAuthError, register } from '../../store/reducers/users';
 
 const RegisterForm = () => {
   const dispatch = useDispatch();
   const [data, setData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    profession: "",
-    gender: "male",
+    name: '',
+    email: '',
+    password: '',
+    profession: '',
+    gender: 'male',
     qualities: [],
     acceptLicense: false,
   });
@@ -37,40 +37,32 @@ const RegisterForm = () => {
 
   const validationConfig = {
     name: {
-      isRequired: (dataItem) =>
-        dataItem.trim() === "" ? "Name must be specified" : undefined,
+      isRequired: (dataItem) => (dataItem.trim() === '' ? 'Name must be specified' : undefined),
     },
     email: {
-      isRequired: (dataItem) =>
-        dataItem.trim() === "" ? "Email must be specified" : undefined,
+      isRequired: (dataItem) => (dataItem.trim() === '' ? 'Email must be specified' : undefined),
       isEmail: (dataItem) =>
-        !/^\S+@\S+\.\S+$/.test(dataItem) ? "Email input is invalid" : undefined,
+        !/^\S+@\S+\.\S+$/.test(dataItem) ? 'Email input is invalid' : undefined,
     },
     password: {
-      isRequired: (dataItem) =>
-        dataItem.trim() === "" ? "Password must be specified" : undefined,
+      isRequired: (dataItem) => (dataItem.trim() === '' ? 'Password must be specified' : undefined),
       hasCapital: (dataItem) =>
-        !/[A-Z]/.test(dataItem)
-          ? "Password should have at least 1 capital letter"
-          : undefined,
+        !/[A-Z]/.test(dataItem) ? 'Password should have at least 1 capital letter' : undefined,
       hasDigit: (dataItem) =>
-        !/\d/.test(dataItem)
-          ? "Password should have at least 1 digit"
-          : undefined,
+        !/\d/.test(dataItem) ? 'Password should have at least 1 digit' : undefined,
       noSpaces: (dataItem) =>
         /\s/.test(dataItem) ? "Password shouldn't have any spaces" : undefined,
       correctLength: (dataItem) =>
         dataItem.length < 8 || dataItem.length > 16
-          ? "Password length should be from 8 to 16 characters"
+          ? 'Password length should be from 8 to 16 characters'
           : undefined,
     },
     profession: {
       isRequired: (dataItem) =>
-        dataItem.trim() === "" ? "Profession must be specified" : undefined,
+        dataItem.trim() === '' ? 'Profession must be specified' : undefined,
     },
     acceptLicense: {
-      isRequired: (dataItem) =>
-        !dataItem ? "You must to accept the license" : undefined,
+      isRequired: (dataItem) => (!dataItem ? 'You must to accept the license' : undefined),
     },
   };
 
@@ -140,7 +132,7 @@ const RegisterForm = () => {
           label="Gender"
           onChange={handleChange}
           name="gender"
-          options={["male", "female", "other"]}
+          options={['male', 'female', 'other']}
           value={data.gender}
         />
         <MultiSelectField
@@ -159,9 +151,7 @@ const RegisterForm = () => {
           Accept the &nbsp;
           <Link to="/auth/register/license">license</Link>
         </CheckboxField>
-        {registerError && (
-          <p className="text-danger">{registerError.message}</p>
-        )}
+        {registerError && <p className="text-danger">{registerError.message}</p>}
         <button
           className="btn btn-primary w-100 mb-3"
           type="submit"

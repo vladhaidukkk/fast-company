@@ -1,5 +1,5 @@
-import React from "react";
-import useMockData from "../utils/mockData";
+import React from 'react';
+import useMockData from '../utils/mockData';
 
 const Main = () => {
   const { initialize, status, error, progress } = useMockData();

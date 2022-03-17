@@ -25,16 +25,13 @@ const commentsSlice = createSlice({
       state.entities.push(action.payload);
     },
     commentDeleted(state, action) {
-      state.entities = state.entities.filter(
-        (comment) => comment._id !== action.payload.id,
-      );
+      state.entities = state.entities.filter((comment) => comment._id !== action.payload.id);
     },
   },
 });
 
-const {
-  received, requested, requestFailed, commentCreated, commentDeleted,
-} = commentsSlice.actions;
+const { received, requested, requestFailed, commentCreated, commentDeleted } =
+  commentsSlice.actions;
 const createCommentFailed = createAction('comments/createCommentFailed');
 const createCommentRequested = createAction('comments/createCommentRequested');
 const deleteCommentFailed = createAction('comments/deleteCommentFailed');
@@ -77,8 +74,14 @@ export const deleteComment = (id) => async (dispatch) => {
   }
 };
 
-export const getComments = () => ({ comments }) => comments.entities;
-export const getCommentsLoading = () => ({ comments }) => comments.isLoading;
+export const getComments =
+  () =>
+  ({ comments }) =>
+    comments.entities;
+export const getCommentsLoading =
+  () =>
+  ({ comments }) =>
+    comments.isLoading;
 
 const commentsReducer = commentsSlice.reducer;
 export default commentsReducer;

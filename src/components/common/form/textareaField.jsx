@@ -1,8 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
 const TextField = ({ label, name, value, onChange, error }) => {
-  const getTextareaClasses = () => `form-control ${error ? "is-invalid" : ""}`;
+  const getTextareaClasses = () => `form-control ${error ? 'is-invalid' : ''}`;
 
   const handleChange = ({ target }) => onChange({ name, value: target.value });
 
@@ -27,7 +27,7 @@ const TextField = ({ label, name, value, onChange, error }) => {
 };
 
 TextField.defaultProps = {
-  error: "",
+  error: '',
 };
 
 TextField.propTypes = {

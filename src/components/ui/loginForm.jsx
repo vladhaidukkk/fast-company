@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
-import * as yup from "yup";
-import { useDispatch, useSelector } from "react-redux";
-import TextField from "../common/form/textField";
-import CheckboxField from "../common/form/checkboxField";
-import { getAuthError, login } from "../../store/reducers/users";
+import React, { useEffect, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import * as yup from 'yup';
+import { useDispatch, useSelector } from 'react-redux';
+import TextField from '../common/form/textField';
+import CheckboxField from '../common/form/checkboxField';
+import { getAuthError, login } from '../../store/reducers/users';
 
 const LoginForm = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [data, setData] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
     remember: false,
   });
   const [errors, setErrors] = useState({});
@@ -21,15 +21,12 @@ const LoginForm = () => {
   const validationScheme = yup.object().shape({
     password: yup
       .string()
-      .required("Password must be specified")
-      .matches(/(?=.*[A-Z])/, "Password should have at least 1 capital letter")
-      .matches(/(?=.*[0-9])/, "Password should have at least 1 digit")
+      .required('Password must be specified')
+      .matches(/(?=.*[A-Z])/, 'Password should have at least 1 capital letter')
+      .matches(/(?=.*[0-9])/, 'Password should have at least 1 digit')
       .matches(/^\S+$/, "Password shouldn't have any spaces")
-      .matches(/(?=.{8,16})/, "Password length should be more than 8"),
-    email: yup
-      .string()
-      .required("Email must be specified")
-      .email("Email input is invalid"),
+      .matches(/(?=.{8,16})/, 'Password length should be more than 8'),
+    email: yup.string().required('Email must be specified').email('Email input is invalid'),
   });
 
   const validate = async () => {
@@ -60,7 +57,7 @@ const LoginForm = () => {
       if (!isValid) return;
       const redirect = history.location.state?.from.pathname
         ? history.location.state.from.pathname
-        : "/";
+        : '/';
       dispatch(login(data, redirect));
     });
   };
@@ -84,11 +81,7 @@ const LoginForm = () => {
           onChange={handleChange}
           error={errors.password}
         />
-        <CheckboxField
-          onChange={handleChange}
-          name="remember"
-          value={data.remember}
-        >
+        <CheckboxField onChange={handleChange} name="remember" value={data.remember}>
           Remember account
         </CheckboxField>
         {loginError && <p className="text-danger">{loginError.message}</p>}

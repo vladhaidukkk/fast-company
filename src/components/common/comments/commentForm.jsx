@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import * as yup from "yup";
-import PropTypes from "prop-types";
-import TextareaField from "../form/textareaField";
+import React, { useState } from 'react';
+import * as yup from 'yup';
+import PropTypes from 'prop-types';
+import TextareaField from '../form/textareaField';
 
-const initialData = { content: "" };
+const initialData = { content: '' };
 
 const CommentForm = ({ onSubmit }) => {
   const [data, setData] = useState(initialData);

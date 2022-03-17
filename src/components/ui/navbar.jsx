@@ -1,8 +1,8 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
-import Account from "./account";
-import { getIsLoggedIn } from "../../store/reducers/users";
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import Account from './account';
+import { getIsLoggedIn } from '../../store/reducers/users';
 
 const Navbar = () => {
   const isLoggedIn = useSelector(getIsLoggedIn());

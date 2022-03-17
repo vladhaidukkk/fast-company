@@ -7,21 +7,21 @@ import { getAuthErrorMessage } from '../../utils/getAuthErrorMessage';
 
 const initialState = localStorageService.getAccessToken()
   ? {
-    entities: null,
-    isLoading: true,
-    error: null,
-    auth: { userId: localStorageService.getUserId() },
-    isLoggedIn: true,
-    dataLoaded: false,
-  }
+      entities: null,
+      isLoading: true,
+      error: null,
+      auth: { userId: localStorageService.getUserId() },
+      isLoggedIn: true,
+      dataLoaded: false,
+    }
   : {
-    entities: null,
-    isLoading: false,
-    error: null,
-    auth: null,
-    isLoggedIn: false,
-    dataLoaded: false,
-  };
+      entities: null,
+      isLoading: false,
+      error: null,
+      auth: null,
+      isLoggedIn: false,
+      dataLoaded: false,
+    };
 
 const usersSlice = createSlice({
   name: 'users',
@@ -121,7 +121,7 @@ export const register = (payload) => async (dispatch) => {
         avatarImg: `https://avatars.dicebear.com/api/avataaars/${(Math.random() + 1)
           .toString(36)
           .substring(7)}.svg`,
-      }),
+      })
     );
   } catch (err) {
     const { message, code } = err.response.data.error;
@@ -172,15 +172,34 @@ export const updateCurrentUser = (payload) => async (dispatch, getState) => {
   }
 };
 
-export const getUsers = () => ({ users }) => users.entities;
-export const getUserById = (id) => ({ users }) => (
-  users.entities ? users.entities.find((user) => user._id === id) : null);
-export const getIsLoggedIn = () => ({ users }) => users.isLoggedIn;
-export const getDataStatus = () => ({ users }) => users.dataLoaded;
-export const getCurrentUserId = () => ({ users }) => users.auth.userId;
-export const getUsersLoadingStatus = () => ({ users }) => users.isLoading;
-export const getCurrentUserData = () => ({ users }) => (
-  users.entities ? users.entities.find((user) => user._id === users.auth.userId) : null);
+export const getUsers =
+  () =>
+  ({ users }) =>
+    users.entities;
+export const getUserById =
+  (id) =>
+  ({ users }) =>
+    users.entities ? users.entities.find((user) => user._id === id) : null;
+export const getIsLoggedIn =
+  () =>
+  ({ users }) =>
+    users.isLoggedIn;
+export const getDataStatus =
+  () =>
+  ({ users }) =>
+    users.dataLoaded;
+export const getCurrentUserId =
+  () =>
+  ({ users }) =>
+    users.auth.userId;
+export const getUsersLoadingStatus =
+  () =>
+  ({ users }) =>
+    users.isLoading;
+export const getCurrentUserData =
+  () =>
+  ({ users }) =>
+    users.entities ? users.entities.find((user) => user._id === users.auth.userId) : null;
 export const getAuthError = () => (state) => state.users.error;
 
 const usersReducer = usersSlice.reducer;

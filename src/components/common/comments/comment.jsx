@@ -1,17 +1,11 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { formatDate } from "../../../utils/date";
-import { getCurrentUserId, getUserById } from "../../../store/reducers/users";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { formatDate } from '../../../utils/date';
+import { getCurrentUserId, getUserById } from '../../../store/reducers/users';
 
-const Comment = ({
-  _id: id,
-  userId: creatorId,
-  content,
-  createdAt,
-  onDelete,
-}) => {
+const Comment = ({ _id: id, userId: creatorId, content, createdAt, onDelete }) => {
   const { userId: pageId } = useParams();
   const currentUserId = useSelector(getCurrentUserId());
   const creator = useSelector(getUserById(creatorId));
@@ -39,12 +33,11 @@ const Comment = ({
                     <p className="mb-1 ">
                       {creator.name}
                       <span className="small">
-                        {" - "}
+                        {' - '}
                         {formatDate(createdAt)}
                       </span>
                     </p>
-                    {(currentUserId === creatorId ||
-                      currentUserId === pageId) && (
+                    {(currentUserId === creatorId || currentUserId === pageId) && (
                       <button
                         type="button"
                         className="btn btn-sm text-primary d-flex align-items-center"

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { getCurrentUserData, logout } from "../../store/reducers/users";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCurrentUserData, logout } from '../../store/reducers/users';
 
 const Account = () => {
   const dispatch = useDispatch();
@@ -14,7 +14,7 @@ const Account = () => {
     dispatch(logout());
   };
 
-  if (!currentUser) return "loading...";
+  if (!currentUser) return 'loading...';
   return (
     <div className="dropdown" onClick={toggleDropdown}>
       <div className="btn dropdown-toggle d-flex align-items-center">
@@ -26,7 +26,7 @@ const Account = () => {
         />
         <span>{currentUser.name}</span>
       </div>
-      <div className={`dropdown-menu ${isOpened ? "show" : ""}`}>
+      <div className={`dropdown-menu ${isOpened ? 'show' : ''}`}>
         <Link to={`/users/${currentUser._id}`} className="dropdown-item">
           Profile
         </Link>

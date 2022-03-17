@@ -1,11 +1,11 @@
-import React from "react";
-import { useHistory, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
-import UserCard from "../../ui/userCard";
-import QualitiesCard from "../../ui/qualitiesCard";
-import Comments from "../../ui/comments";
-import CompletedMeetingsCard from "../../ui/completedMeetingsCard";
-import { getUserById } from "../../../store/reducers/users";
+import React from 'react';
+import { useHistory, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import UserCard from '../../ui/userCard';
+import QualitiesCard from '../../ui/qualitiesCard';
+import Comments from '../../ui/comments';
+import CompletedMeetingsCard from '../../ui/completedMeetingsCard';
+import { getUserById } from '../../../store/reducers/users';
 
 const UserLayout = () => {
   const { userId } = useParams();
@@ -16,15 +16,9 @@ const UserLayout = () => {
     return (
       <div className="m-2">
         <h2>
-          <span className="badge bg-danger">
-            User with this id does not exist
-          </span>
+          <span className="badge bg-danger">User with this id does not exist</span>
         </h2>
-        <button
-          type="button"
-          className="btn btn-primary"
-          onClick={() => push("/users")}
-        >
+        <button type="button" className="btn btn-primary" onClick={() => push('/users')}>
           All users
         </button>
       </div>

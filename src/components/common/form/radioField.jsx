@@ -1,6 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { capitalize } from "lodash";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { capitalize } from 'lodash';
 
 const RadioField = ({ label, name, value, onChange, options }) => {
   const handleChange = ({ target }) => onChange({ name, value: target.value });

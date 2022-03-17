@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import { toast } from "react-toastify";
-import userService from "../services/user.service";
+import React, { useContext, useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { toast } from 'react-toastify';
+import userService from '../services/user.service';
 
 const UsersContext = React.createContext();
 
@@ -58,8 +58,5 @@ export const UsersProvider = ({ children }) => {
 };
 
 UsersProvider.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]).isRequired,
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 };

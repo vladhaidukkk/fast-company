@@ -1,19 +1,11 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
-const SelectField = ({
-  label,
-  options,
-  name,
-  value,
-  onChange,
-  error,
-  defaultOption,
-}) => {
-  const getSelectClasses = () => `form-select ${error ? "is-invalid" : ""}`;
+const SelectField = ({ label, options, name, value, onChange, error, defaultOption }) => {
+  const getSelectClasses = () => `form-select ${error ? 'is-invalid' : ''}`;
 
   const getDefaultOption = () =>
-    Object.keys(options).length !== 0 ? defaultOption : "Loading options...";
+    Object.keys(options).length !== 0 ? defaultOption : 'Loading options...';
 
   const renderOptions = () =>
     Array.isArray(options)
@@ -59,10 +51,10 @@ const SelectField = ({
 };
 
 SelectField.defaultProps = {
-  label: "",
+  label: '',
   options: [],
-  error: "",
-  defaultOption: "Choose...",
+  error: '',
+  defaultOption: 'Choose...',
 };
 
 SelectField.propTypes = {

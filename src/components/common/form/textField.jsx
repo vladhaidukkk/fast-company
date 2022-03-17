@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
 const TextField = ({ label, type, name, value, onChange, error }) => {
-  const isPassword = type === "password";
+  const isPassword = type === 'password';
   const [passwordVisibility, setPasswordVisibility] = useState(false);
 
   const toggleTextVisibility = () => {
     setPasswordVisibility(!passwordVisibility);
   };
 
-  const getInputClasses = () => `form-control ${error ? "is-invalid" : ""}`;
+  const getInputClasses = () => `form-control ${error ? 'is-invalid' : ''}`;
 
   const handleChange = ({ target }) => onChange({ name, value: target.value });
 
@@ -21,7 +21,7 @@ const TextField = ({ label, type, name, value, onChange, error }) => {
       <div className="input-group has-validation">
         <input
           id={name}
-          type={passwordVisibility ? "text" : type}
+          type={passwordVisibility ? 'text' : type}
           value={value}
           name={name}
           onChange={handleChange}
@@ -33,11 +33,7 @@ const TextField = ({ label, type, name, value, onChange, error }) => {
             type="button"
             onClick={toggleTextVisibility}
           >
-            {passwordVisibility ? (
-              <i className="bi bi-eye-slash" />
-            ) : (
-              <i className="bi bi-eye" />
-            )}
+            {passwordVisibility ? <i className="bi bi-eye-slash" /> : <i className="bi bi-eye" />}
           </button>
         )}
         {error && <div className="invalid-feedback">{error}</div>}
@@ -47,8 +43,8 @@ const TextField = ({ label, type, name, value, onChange, error }) => {
 };
 
 TextField.defaultProps = {
-  type: "text",
-  error: "",
+  type: 'text',
+  error: '',
 };
 
 TextField.propTypes = {

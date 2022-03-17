@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import PropTypes from "prop-types";
-import { fetchUsers, getDataStatus } from "../../../store/reducers/users";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
+import { fetchUsers, getDataStatus } from '../../../store/reducers/users';
 
 const UsersLoader = ({ children }) => {
   const dispatch = useDispatch();
@@ -16,10 +16,7 @@ const UsersLoader = ({ children }) => {
 };
 
 UsersLoader.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]).isRequired,
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 };
 
 export default UsersLoader;

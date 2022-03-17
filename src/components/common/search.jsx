@@ -1,5 +1,5 @@
-import React from "react";
-import PropsTypes from "prop-types";
+import React from 'react';
+import PropsTypes from 'prop-types';
 
 const Search = ({ placeholder, value, onChange }) => (
   <input
@@ -12,7 +12,7 @@ const Search = ({ placeholder, value, onChange }) => (
 );
 
 Search.defaultProps = {
-  placeholder: "",
+  placeholder: '',
 };
 
 Search.propTypes = {

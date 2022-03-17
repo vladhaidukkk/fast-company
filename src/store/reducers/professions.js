@@ -44,14 +44,22 @@ export const fetchProfessions = () => async (dispatch, getState) => {
   }
 };
 
-export const getProfessions = () => ({ professions }) => professions.entities;
-export const getProfessionsLoading = () => ({ professions }) => professions.isLoading;
-export const getProfessionById = (id) => ({ professions }) => {
-  if (professions.entities) {
-    return professions.entities.find((prof) => prof._id === id);
-  }
-  return null;
-};
+export const getProfessions =
+  () =>
+  ({ professions }) =>
+    professions.entities;
+export const getProfessionsLoading =
+  () =>
+  ({ professions }) =>
+    professions.isLoading;
+export const getProfessionById =
+  (id) =>
+  ({ professions }) => {
+    if (professions.entities) {
+      return professions.entities.find((prof) => prof._id === id);
+    }
+    return null;
+  };
 
 const professionsReducer = professionsSlice.reducer;
 export default professionsReducer;

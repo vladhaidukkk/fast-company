@@ -1,17 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
 const Bookmark = ({ userId, selected, onBookmarkToggle }) => (
-  <button
-    type="button"
-    className="btn"
-    onClick={() => onBookmarkToggle(userId)}
-  >
-    {selected ? (
-      <i className="bi bi-bookmark-fill" />
-    ) : (
-      <i className="bi bi-bookmark" />
-    )}
+  <button type="button" className="btn" onClick={() => onBookmarkToggle(userId)}>
+    {selected ? <i className="bi bi-bookmark-fill" /> : <i className="bi bi-bookmark" />}
   </button>
 );
 

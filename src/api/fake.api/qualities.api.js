@@ -31,10 +31,11 @@ export const qualitiesObject = {
   },
 };
 
-const getAll = () => new Promise((resolve) => {
-  setTimeout(() => {
-    resolve(qualitiesObject);
-  }, 500);
-});
+const getAll = () =>
+  new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(qualitiesObject);
+    }, 500);
+  });
 
 export default { getAll };
