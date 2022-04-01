@@ -1,0 +1,32 @@
+[
+  {
+    "id": "67rdca3eeb7f6fgeed471198",
+    "name": "Нудила",
+    "color": "primary"
+  },
+  {
+    "id": "67rdca3eeb7f6fgeed471100",
+    "name": "Странный",
+    "color": "secondary"
+  },
+  {
+    "id": "67rdca3eeb7f6fgeed4711012",
+    "name": "Троль",
+    "color": "success"
+  },
+  {
+    "id": "67rdca3eeb7f6fgeed471101",
+    "name": "Алкоголик",
+    "color": "danger"
+  },
+  {
+    "id": "67rdca3eeb7f6fgeed471102",
+    "name": "Красавчик",
+    "color": "info"
+  },
+  {
+    "id": "67rdca3eeb7f6fgeed471103",
+    "name": "Неуверенный",
+    "color": "dark"
+  }
+]
