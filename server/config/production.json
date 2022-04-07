@@ -1,0 +1,6 @@
+{
+  "port": 8080,
+  "mongodbUri": "mongodb+srv://vladhaidukkk:fast-company-jfd@cluster0.spsfh.mongodb.net/jfd-fs-app?retryWrites=true&w=majority",
+  "accessSecretKey": "SoMe SECreT ACCesS tOKen KEy",
+  "refreshSecretKey": "SoMe SECreT ReFRESh tOKen KEy"
+}

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router({ mergeParams: true });
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const tokenService = require("../services/token.service");
 const User = require("../models/User");
 const { generateUserData } = require("../utils/helpers");

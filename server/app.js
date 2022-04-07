@@ -5,6 +5,7 @@ const config = require("config");
 const initDatabase = require("./startUp/initDatabase");
 const routes = require("./routes");
 const cors = require("cors");
+const path = require("path");
 
 const PORT = config.get("port") ?? 8080;
 
@@ -15,6 +16,16 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
 app.use("/api", routes);
+
+if (process.env.NODE_ENV === "production") {
+  const root = path.join(__dirname, "client");
+  const indexFile = path.join(root, "index.html");
+
+  app.use("/", express.static(root));
+  app.get("*", (req, res) => {
+    res.sendFile(indexFile);
+  });
+}
 
 const start = async () => {
   try {
