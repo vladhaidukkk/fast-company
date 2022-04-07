@@ -23,7 +23,7 @@ const EditUserLayout = () => {
     name: data.name,
     email: data.email,
     profession: data.profession,
-    gender: data.gender,
+    sex: data.sex,
     qualities: !qualitiesLoading
       ? data.qualities.map((qualId) => ({
           label: qualities.find((quality) => quality._id === qualId).name,
@@ -45,7 +45,7 @@ const EditUserLayout = () => {
     name: data.name,
     email: data.email,
     profession: data.profession,
-    gender: data.gender,
+    sex: data.sex,
     qualities: data.qualities.map((quality) => quality.value),
   });
 
@@ -124,11 +124,11 @@ const EditUserLayout = () => {
           error={errors.profession}
         />
         <RadioField
-          label="Gender"
+          label="Sex"
           onChange={handleChange}
-          name="gender"
+          name="sex"
           options={['male', 'female', 'other']}
-          value={data.gender}
+          value={data.sex}
         />
         <MultiSelectField
           label="Qualities"

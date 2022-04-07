@@ -21,7 +21,7 @@ const Comment = ({ _id: id, userId: creatorId, content, createdAt, onDelete }) =
           <div className="col">
             <div className="d-flex flex-start ">
               <img
-                src={creator.avatarImg}
+                src={creator.image}
                 className="rounded-circle shadow-1-strong me-3"
                 alt="avatar"
                 width="65"
@@ -64,7 +64,7 @@ Comment.propTypes = {
   _id: PropTypes.string.isRequired,
   userId: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
-  createdAt: PropTypes.number.isRequired,
+  createdAt: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired,
 };
 

@@ -19,7 +19,7 @@ const Account = () => {
     <div className="dropdown" onClick={toggleDropdown}>
       <div className="btn dropdown-toggle d-flex align-items-center">
         <img
-          src={currentUser.avatarImg}
+          src={currentUser.image}
           alt="avatar"
           height="40"
           className="rounded-circle me-2 img-responsive"

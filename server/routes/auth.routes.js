@@ -56,6 +56,7 @@ router.post("/signUp", [
         userId: newUser._id,
       });
     } catch (error) {
+      console.log(error.message);
       res.status(500).json({
         message: "Something went wrong. try it later",
       });

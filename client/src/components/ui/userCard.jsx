@@ -21,7 +21,7 @@ const UserCard = ({ data }) => {
           </button>
         )}
         <div className="d-flex flex-column align-items-center text-center position-relative">
-          <img src={data.avatarImg} className="rounded-circle" width="150" alt="User avatar" />
+          <img src={data.image} className="rounded-circle" width="150" alt="User avatar" />
           <div className="mt-3">
             <h4>{data.name}</h4>
             <p className="text-secondary mb-1">{data.profession.name}</p>

@@ -7,7 +7,7 @@ const Profession = ({ id }) => {
   const isLoading = useSelector(getProfessionsLoading());
   const profession = useSelector(getProfessionById(id));
 
-  if (!isLoading) {
+  if (!isLoading && profession) {
     return <p>{profession.name}</p>;
   }
   return `loading...${id}`;

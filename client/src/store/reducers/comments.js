@@ -1,6 +1,7 @@
 import { createAction, createSlice } from '@reduxjs/toolkit';
 import { nanoid } from 'nanoid';
 import commentService from '../../services/comment.service';
+import configFile from '../../config.json';
 
 const commentsSlice = createSlice({
   name: 'comments',
@@ -54,9 +55,9 @@ export const createComment = (payload) => async (dispatch, getState) => {
     const { userId } = getState().users.auth;
     const { content } = await commentService.create({
       ...payload,
-      _id: nanoid(),
+      _id: configFile.isFirebase ? nanoid() : undefined,
       userId,
-      createdAt: Date.now(),
+      createdAt: configFile.isFirebase ? Date.now() : undefined,
     });
     dispatch(commentCreated(content));
   } catch {

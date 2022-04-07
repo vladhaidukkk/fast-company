@@ -72,11 +72,13 @@ const UsersListLayout = () => {
     <div className="d-flex">
       {!isLoadingProfessions && (
         <div className="w-25 p-2">
-          <GroupList
-            items={professions}
-            onItemSelect={handleProfessionSelect}
-            selectedItem={selectedProf}
-          />
+          {professions && (
+            <GroupList
+              items={professions}
+              onItemSelect={handleProfessionSelect}
+              selectedItem={selectedProf}
+            />
+          )}
           <button type="button" className="btn btn-secondary mt-2" onClick={clearFilter}>
             Очистить фильтр
           </button>

@@ -1,27 +1,56 @@
 import axios from 'axios';
+import configFile from '../config.json';
 
 const httpAuth = axios.create({
-  baseURL: 'https://identitytoolkit.googleapis.com/v1/',
+  baseURL: configFile.isFirebase
+    ? 'https://identitytoolkit.googleapis.com/v1/'
+    : `${configFile.apiEndpoint}auth/`,
   params: {
-    // key: process.env.REACT_APP_FIREBASE_KEY,
-    key: 'AIzaSyDx2b-juTev7UOyt835ey7Jt3egvcDmUac',
+    key: configFile.isFirebase ? process.env.REACT_APP_FIREBASE_KEY : undefined,
   },
 });
 
 const authService = {
-  register: async ({ email, password }) => {
-    const { data } = await httpAuth.post('accounts:signUp', {
-      email,
-      password,
-      returnSecureToken: true,
-    });
+  register: async (payload) => {
+    const endpoint = configFile.isFirebase ? 'accounts:signUp' : 'signUp';
+    const body = configFile.isFirebase
+      ? {
+          email: payload.email,
+          password: payload.password,
+          returnSecureToken: true,
+        }
+      : payload;
+    const { data } = await httpAuth.post(endpoint, body);
+
     return data;
   },
   login: async ({ email, password }) => {
-    const { data } = await httpAuth.post('accounts:signInWithPassword', {
-      email,
-      password,
-      returnSecureToken: true,
+    const endpoint = configFile.isFirebase ? 'accounts:signInWithPassword' : 'signInWithPassword';
+    const body = configFile.isFirebase
+      ? {
+          email,
+          password,
+          returnSecureToken: true,
+        }
+      : {
+          email,
+          password,
+        };
+    const { data } = await httpAuth.post(endpoint, body);
+
+    return data;
+  },
+  exchangeToken: async ({ refreshToken }) => {
+    if (configFile.isFirebase) {
+      const key = process.env.REACT_APP_FIREBASE_KEY;
+      const { data } = await axios.post(`https://securetoken.googleapis.com/v1/token?key=${key}`, {
+        grant_type: 'refresh_token',
+        refresh_token: refreshToken,
+      });
+      return data;
+    }
+    const { data } = await httpAuth.post('token', {
+      refresh_token: refreshToken,
     });
     return data;
   },

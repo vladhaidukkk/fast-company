@@ -4,6 +4,7 @@ import authService from '../../services/auth.service';
 import localStorageService, { setTokens } from '../../services/localStorage.service';
 import history from '../../utils/history';
 import { getAuthErrorMessage } from '../../utils/getAuthErrorMessage';
+import configFile from '../../config.json';
 
 const initialState = localStorageService.getAccessToken()
   ? {
@@ -110,19 +111,35 @@ export const register = (payload) => async (dispatch) => {
   dispatch(authRequested());
   try {
     const data = await authService.register(payload);
-    setTokens(data);
-    dispatch(authenticated({ userId: data.localId }));
-    dispatch(
-      createUser({
-        ...payload,
-        _id: data.localId,
-        completedMeetings: 0,
-        rate: 0,
-        avatarImg: `https://avatars.dicebear.com/api/avataaars/${(Math.random() + 1)
-          .toString(36)
-          .substring(7)}.svg`,
-      })
-    );
+
+    if (configFile.isFirebase) {
+      setTokens(data);
+    } else {
+      setTokens({
+        idToken: data.accessToken,
+        localId: data.userId,
+        refreshToken: data.refreshToken,
+        expiresIn: data.expiresIn,
+      });
+    }
+
+    dispatch(authenticated({ userId: configFile.isFirebase ? data.localId : data.userId }));
+
+    if (configFile.isFirebase) {
+      dispatch(
+        createUser({
+          ...payload,
+          _id: data.localId,
+          completedMeetings: 0,
+          rate: 0,
+          avatarImg: `https://avatars.dicebear.com/api/avataaars/${(Math.random() + 1)
+            .toString(36)
+            .substring(7)}.svg`,
+        })
+      );
+    }
+
+    history.push('/users');
   } catch (err) {
     const { message, code } = err.response.data.error;
 
@@ -139,8 +156,19 @@ export const login = (payload, redirect) => async (dispatch) => {
   dispatch(authRequested());
   try {
     const data = await authService.login(payload);
-    dispatch(authenticated({ userId: data.localId }));
-    setTokens(data);
+
+    if (configFile.isFirebase) {
+      setTokens(data);
+    } else {
+      setTokens({
+        idToken: data.accessToken,
+        localId: data.userId,
+        refreshToken: data.refreshToken,
+        expiresIn: data.expiresIn,
+      });
+    }
+
+    dispatch(authenticated({ userId: configFile.isFirebase ? data.localId : data.userId }));
     history.push(redirect);
   } catch (err) {
     const { message, code } = err.response.data.error;
@@ -164,7 +192,10 @@ export const updateCurrentUser = (payload) => async (dispatch, getState) => {
   dispatch(updateUserRequested());
   try {
     const id = getState().users.auth.userId;
-    const { content } = await userService.patch(id, { _id: id, ...payload });
+    const { content } = await userService.patch(id, {
+      _id: configFile.isFirebase ? id : undefined,
+      ...payload,
+    });
     dispatch(userUpdated(content));
     history.push(`/users/${id}`);
   } catch (err) {

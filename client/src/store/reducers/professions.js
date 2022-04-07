@@ -48,10 +48,12 @@ export const getProfessions =
   () =>
   ({ professions }) =>
     professions.entities;
+
 export const getProfessionsLoading =
   () =>
   ({ professions }) =>
     professions.isLoading;
+
 export const getProfessionById =
   (id) =>
   ({ professions }) => {

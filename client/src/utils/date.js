@@ -29,9 +29,9 @@ export const formatMonth = (monthNumber) => {
   }
 };
 
-export const formatDate = (milliseconds) => {
-  const date = new Date(milliseconds);
-  const diff = Date.now() - milliseconds;
+export const formatDate = (inpDate) => {
+  const date = new Date(inpDate);
+  const diff = Date.now() - date.getMilliseconds();
   const diffInMinutes = diff / 1000 / 60;
   const diffInHours = diffInMinutes / 60;
   const diffInYears = date.getFullYear() - new Date().getFullYear();

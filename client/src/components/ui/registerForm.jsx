@@ -18,20 +18,24 @@ const RegisterForm = () => {
     email: '',
     password: '',
     profession: '',
-    gender: 'male',
+    sex: 'male',
     qualities: [],
     acceptLicense: false,
   });
   const professions = useSelector(getProfessions());
-  const professionsList = professions.map((profession) => ({
-    value: profession._id,
-    label: profession.name,
-  }));
+  const professionsList = professions
+    ? professions.map((profession) => ({
+        value: profession._id,
+        label: profession.name,
+      }))
+    : [];
   const qualities = useSelector(getQualities());
-  const qualitiesList = qualities.map((quality) => ({
-    value: quality._id,
-    label: quality.name,
-  }));
+  const qualitiesList = qualities
+    ? qualities.map((quality) => ({
+        value: quality._id,
+        label: quality.name,
+      }))
+    : [];
   const [errors, setErrors] = useState({});
   const registerError = useSelector(getAuthError());
 
@@ -131,9 +135,9 @@ const RegisterForm = () => {
         <RadioField
           label="Gender"
           onChange={handleChange}
-          name="gender"
+          name="sex"
           options={['male', 'female', 'other']}
-          value={data.gender}
+          value={data.sex}
         />
         <MultiSelectField
           label="Qualities"

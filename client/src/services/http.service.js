@@ -2,30 +2,24 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import configFile from '../config.json';
 import localStorageService from './localStorage.service';
+import authService from './auth.service';
 
 const http = axios.create({
-  baseURL: configFile.apiEndpoint,
+  baseURL: configFile.isFirebase ? configFile.firebaseApiEndpoint : configFile.apiEndpoint,
 });
 
 http.interceptors.request.use(
   async (config) => {
+    const refreshToken = localStorageService.getRefreshToken();
+    const expiresIn = localStorageService.getTokenExpiresDate();
+    const isExpired = refreshToken && expiresIn < Date.now();
+
     if (configFile.isFirebase) {
       const containSlash = /\/$/gi.test(config.url);
       config.url = `${containSlash ? config.url.slice(0, -1) : config.url}.json`;
 
-      const refreshToken = localStorageService.getRefreshToken();
-      const expiresIn = localStorageService.getTokenExpiresDate();
-
-      if (refreshToken && expiresIn < Date.now()) {
-        // const key = process.env.REACT_APP_FIREBASE_KEY;
-        const key = 'AIzaSyDx2b-juTev7UOyt835ey7Jt3egvcDmUac';
-        const { data } = await axios.post(
-          `https://securetoken.googleapis.com/v1/token?key=${key}`,
-          {
-            grant_type: 'refresh_token',
-            refresh_token: refreshToken,
-          }
-        );
+      if (isExpired) {
+        const data = authService.exchangeToken({ refreshToken });
         localStorageService.setTokens({
           idToken: data.id_token,
           refreshToken: data.refresh_token,
@@ -38,7 +32,23 @@ http.interceptors.request.use(
       if (accessToken) {
         config.params = { ...config.params, auth: accessToken };
       }
+    } else {
+      if (isExpired) {
+        const data = authService.exchangeToken({ refreshToken });
+        localStorageService.setTokens({
+          idToken: data.accessToken,
+          refreshToken: data.refreshToken,
+          localId: data.userId,
+          expiresIn: data.expiresIn,
+        });
+      }
+
+      const accessToken = localStorageService.getAccessToken();
+      if (accessToken) {
+        config.headers = { ...config.headers, Authorization: `Bearer ${accessToken}` };
+      }
     }
+
     return config;
   },
   (error) => Promise.reject(error)

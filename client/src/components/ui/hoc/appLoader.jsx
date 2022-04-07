@@ -13,7 +13,9 @@ const AppLoader = ({ children }) => {
   useEffect(() => {
     dispatch(fetchQualities());
     dispatch(fetchProfessions());
-    if (isLoggedIn) dispatch(fetchUsers());
+    if (isLoggedIn) {
+      dispatch(fetchUsers());
+    }
   }, [isLoggedIn]);
 
   if (isUsersLoading) return <h1>Loading</h1>;
