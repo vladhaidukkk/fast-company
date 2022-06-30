@@ -8,7 +8,8 @@ The goal of the project is to find new friends. Here you can create an account w
 
 ### Development description
 
-To create this project I used **MERN Stack** with Redux state manager, but at the beginning when I didn't have onw backend REST API I used **Firebase**.
+To create this project I used **MERN Stack** with **Redux** state manager, but at the beginning when I didn't have onw backend REST API I used **Firebase**.
+Authorisation is based on **JWT**. To easily deploy project I used **Docker**.
 
 #### Full list of languages and tools:
 
@@ -19,3 +20,4 @@ To create this project I used **MERN Stack** with Redux state manager, but at th
 ![Express.js](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge&logo=express&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
 ![Firebase](https://img.shields.io/badge/Firebase-FFCB2B?style=for-the-badge&logo=firebase&logoColor=333333)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white)
