@@ -9,6 +9,7 @@ The goal of the project is to find new friends. Here you can create an account w
 ### Development description
 
 To create this project I used **MERN Stack** with **Redux** state manager, but at the beginning when I didn't have onw backend REST API I used **Firebase**.
+
 Authorisation is based on **JWT**. To easily deploy project I used **Docker**.
 
 #### Full list of languages and tools:
